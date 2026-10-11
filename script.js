@@ -242,19 +242,71 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 8. Contact Form Handler
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (event) => {
+    // 8. Contact Form Handler (Individual vs Organization Dual-Tab Systems)
+    const tabIndivBtn = document.getElementById('tabIndivBtn');
+    const tabOrgBtn = document.getElementById('tabOrgBtn');
+    const formIndividual = document.getElementById('individualForm');
+    const formOrganization = document.getElementById('organizationForm');
+
+    function activateContactTab(type) {
+        if (type === 'organization') {
+            if (tabOrgBtn && tabIndivBtn) {
+                tabOrgBtn.classList.add('active');
+                tabIndivBtn.classList.remove('active');
+            }
+            if (formOrganization && formIndividual) {
+                formOrganization.classList.add('active');
+                formIndividual.classList.remove('active');
+            }
+        } else {
+            if (tabIndivBtn && tabOrgBtn) {
+                tabIndivBtn.classList.add('active');
+                tabOrgBtn.classList.remove('active');
+            }
+            if (formIndividual && formOrganization) {
+                formIndividual.classList.add('active');
+                formOrganization.classList.remove('active');
+            }
+        }
+    }
+
+    if (tabIndivBtn) tabIndivBtn.addEventListener('click', () => activateContactTab('individual'));
+    if (tabOrgBtn) tabOrgBtn.addEventListener('click', () => activateContactTab('organization'));
+
+    // Handle particle section buttons ("For individuals" & "For organizations")
+    document.querySelectorAll('[data-contact-target]').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetType = this.getAttribute('data-contact-target');
+            activateContactTab(targetType);
+
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                const navOffset = 70;
+                const targetPos = contactSection.getBoundingClientRect().top + window.pageYOffset - navOffset;
+                window.scrollTo({ top: targetPos, behavior: 'smooth' });
+
+                setTimeout(() => {
+                    if (targetType === 'organization') {
+                        const input = document.getElementById('orgName');
+                        if (input) input.focus();
+                    } else {
+                        const input = document.getElementById('indivName');
+                        if (input) input.focus();
+                    }
+                }, 550);
+            }
+        });
+    });
+
+    // Individual Form Submission
+    if (formIndividual) {
+        formIndividual.addEventListener('submit', (event) => {
             event.preventDefault();
 
-            const nameInput = document.getElementById('name');
-            const emailInput = document.getElementById('email');
-            const messageInput = document.getElementById('message');
-
-            const name = nameInput.value.trim();
-            const email = emailInput.value.trim();
-            const message = messageInput.value.trim();
+            const name = document.getElementById('indivName').value.trim();
+            const email = document.getElementById('indivEmail').value.trim();
+            const message = document.getElementById('indivMessage').value.trim();
 
             if (!name || !email || !message) {
                 alert('يرجى ملء جميع الحقول المطلوبة قبل الإرسال.');
@@ -268,8 +320,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             setTimeout(() => {
-                alert(`شكراً لتواصلك معنا يا ${name}! تم استلام رسالتك وسيتواصل معك فريق Smart Land قريباً.`);
-                contactForm.reset();
+                alert(`شكراً لتواصلك الفردي يا ${name}! تم استلام استفسارك وسيتواصل معك فريق Smart Land قريباً.`);
+                formIndividual.reset();
+            }, 300);
+        });
+    }
+
+    // Organization Form Submission
+    if (formOrganization) {
+        formOrganization.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const orgName = document.getElementById('orgName').value.trim();
+            const workEmail = document.getElementById('orgWorkEmail').value.trim();
+            const contactPerson = document.getElementById('orgContactPerson').value.trim();
+            const orgMessage = document.getElementById('orgMessage').value.trim();
+
+            if (!orgName || !workEmail || !contactPerson || !orgMessage) {
+                alert('يرجى ملء جميع بيانات المؤسسة المطلوبة قبل الإرسال.');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(workEmail)) {
+                alert('يرجى إدخال عنوان بريد إلكتروني رسمي صحيح.');
+                return;
+            }
+
+            setTimeout(() => {
+                alert(`تم استلام طلب مشروع مؤسسة "${orgName}" بنجاح! سيتواصل مسؤول العلاقات التقنية في Smart Land مع السيد/ة ${contactPerson} قريباً.`);
+                formOrganization.reset();
             }, 300);
         });
     }

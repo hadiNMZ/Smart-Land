@@ -243,47 +243,114 @@
     <div class="solution-section" data-shape="braces">
         <div class="try-solution-background"><canvas></canvas></div>
         <div class="try-solutions-content">
-            <p class="try-solution-label">Available at no charge</p>
-            <p class="header">For developers</p>
-            <p class="subhead">Achieve new heights</p>
-            <div class="solutions-cta"><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="button button-primary particle-btn">Download</a></div>
+            <p class="try-solution-label">الأفراد والخبراء</p>
+            <p class="header">For individuals</p>
+            <p class="subhead">استشارات واستفسارات تطويرية مخصصة</p>
+            <div class="solutions-cta"><a href="#contact" data-contact-target="individual" class="button button-primary particle-btn">تواصل كفرد</a></div>
         </div>
     </div>
     <div class="solution-section" data-shape="orbs">
         <div class="try-solution-background"><canvas></canvas></div>
         <div class="try-solutions-content">
-            <p class="try-solution-label">Now Available!</p>
+            <p class="try-solution-label">المؤسسات والشركات</p>
             <p class="header">For organizations</p>
-            <p class="subhead">Level up your entire team</p>
-            <div class="solutions-cta"><a href="#contact" class="button button-secondary particle-btn">Read More</a></div>
+            <p class="subhead">حلول برمجية متكاملة وتحول رقمي للشركات</p>
+            <div class="solutions-cta"><a href="#contact" data-contact-target="organization" class="button button-secondary particle-btn">تواصل كمؤسسة</a></div>
         </div>
     </div>
 </section>
 
 
-<!-- Contact Form -->
+<!-- Dual-Type Contact Forms Section -->
 <section id="contact" class="section">
     <div class="container">
         <div class="section-header reveal-on-scroll">
             <h2 class="section-title">تواصل معنا</h2>
-            <p class="section-subtitle">فريقنا مستعد دائماً لمناقشة استفساراتكم ومشاريعكم القادمة.</p>
+            <p class="section-subtitle">اختر نوع التواصل المناسب لمساعدتك بشكل دقيق وسريع.</p>
         </div>
 
-        <form class="contact-form reveal-on-scroll" id="contactForm">
+        <!-- Contact Type Switcher Tabs -->
+        <div class="contact-tab-switcher reveal-on-scroll">
+            <button type="button" class="contact-tab-btn active" id="tabIndivBtn">
+                <span> للأفراد والخبراء</span>
+            </button>
+            <button type="button" class="contact-tab-btn" id="tabOrgBtn">
+                <span> للمؤسسات والشركات</span>
+            </button>
+        </div>
+
+        <!-- Form 1: Individual Contact Form -->
+        <form class="contact-form contact-form-view active reveal-on-scroll" id="individualForm">
+            <div class="form-badge-tag"> نموذج الاستفسارات الفردية والاستشارات</div>
             <div class="form-group">
-                <label for="name">الاسم الكامل</label>
-                <input type="text" id="name" required placeholder="أدخل اسمك الكريم">
+                <label for="indivName">الاسم الكامل</label>
+                <input type="text" id="indivName" required placeholder="أدخل اسمك الكريم">
             </div>
             <div class="form-group">
-                <label for="email">البريد الإلكتروني</label>
-                <input type="email" id="email" required placeholder="name@domain.com">
+                <label for="indivEmail">البريد الإلكتروني</label>
+                <input type="email" id="indivEmail" required placeholder="name@domain.com">
             </div>
             <div class="form-group">
-                <label for="message">الرسالة</label>
-                <textarea id="message" rows="5" required placeholder="كيف يمكننا تقديم المساعدة؟"></textarea>
+                <label for="indivRole">المجال / التخصص</label>
+                <select id="indivRole" class="form-select">
+                    <option value="developer">مطور / مهندس برمجيات</option>
+                    <option value="student">طالب / باحث أكاديمي</option>
+                    <option value="consultant">خبير / استشاري تقني</option>
+                    <option value="other">آخر</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="indivMessage">تفاصيل الاستفسار</label>
+                <textarea id="indivMessage" rows="5" required placeholder="اكتب استفسارك أو طلبك الفردي هنا..."></textarea>
             </div>
             <button type="submit" class="btn-primary form-submit-btn particle-btn">
-                <span>إرسال الرسالة</span>
+                <span>إرسال استفسار الأفراد</span>
+            </button>
+        </form>
+
+        <!-- Form 2: Organization Contact Form -->
+        <form class="contact-form contact-form-view reveal-on-scroll" id="organizationForm">
+            <div class="form-badge-tag org-badge">نموذج طلبات مشاريع المؤسسات والشركات</div>
+            <div class="form-group-grid">
+                <div class="form-group">
+                    <label for="orgName">اسم الجهة / الشركة</label>
+                    <input type="text" id="orgName" required placeholder="أدخل اسم المؤسسة أو الشركة">
+                </div>
+                <div class="form-group">
+                    <label for="orgWorkEmail">البريد الإلكتروني المؤسسي</label>
+                    <input type="email" id="orgWorkEmail" required placeholder="contact@company.com">
+                </div>
+            </div>
+            <div class="form-group-grid">
+                <div class="form-group">
+                    <label for="orgContactPerson">مسؤول التواصل والمنصب</label>
+                    <input type="text" id="orgContactPerson" required placeholder="الاسم والمسمى الوظيفي">
+                </div>
+                <div class="form-group">
+                    <label for="orgSize">حجم المنشأة / الموظفين</label>
+                    <select id="orgSize" class="form-select">
+                        <option value="small">1 - 15 موظفاً (شركة ناشئة)</option>
+                        <option value="medium">16 - 100 موظف (متوسطة)</option>
+                        <option value="large">101 - 500 موظف (كبيرة)</option>
+                        <option value="enterprise">+500 موظف (منظومة/قطاع حكومي)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="orgProjectType">نوع الخدمة / نطاق الحل البرمجي المطلوب</label>
+                <select id="orgProjectType" class="form-select">
+                    <option value="ai-solutions">حلول ذكاء اصطناعي ورؤية حاسوبية</option>
+                    <option value="custom-platform">تطوير منصة رقمية مخصصة</option>
+                    <option value="digital-transform">استشارات تحول رقمي وأتمتة</option>
+                    <option value="edtech-ecom">منظومة تعلّم / تجارة إلكترونية</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="orgMessage">متطلبات المشروع ونطاق العمل</label>
+                <textarea id="orgMessage" rows="5" required placeholder="اشرح المتطلبات التقنية والأهداف التشغيلية للمشروع..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary form-submit-btn particle-btn org-submit">
+                <span>إرسال طلب مشروع المؤسسة</span>
             </button>
         </form>
     </div>
