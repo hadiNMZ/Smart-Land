@@ -32,14 +32,14 @@
           <div class="mk-app">
             <div class="mk-nav-tabs" id="mkNavTabs">
               <button class="mk-tab-btn active" data-cat="" type="button">الكل</button>
-              <button class="mk-tab-btn" data-cat="home" type="button">🏡 العقارات</button>
-              <button class="mk-tab-btn" data-cat="car" type="button">🚗 المركبات</button>
-              <button class="mk-tab-btn" data-fav="true" type="button">⭐ المفضلة (<span id="mkFavN">0</span>)</button>
+              <button class="mk-tab-btn" data-cat="home" type="button"> العقارات</button>
+              <button class="mk-tab-btn" data-cat="car" type="button"> المركبات</button>
+              <button class="mk-tab-btn" data-fav="true" type="button"> المفضلة (<span id="mkFavN">0</span>)</button>
             </div>
 
             <div class="mk-bar">
               <div class="mk-search-wrapper">
-                <span class="mk-search-icon">🔍</span>
+                <span class="mk-search-icon"></span>
                 <input class="w-input" id="mkQ" type="search" placeholder="ابحث عن إعلان، عقار، سيارة أو مدينة…" aria-label="بحث">
               </div>
               <select class="w-select" id="mkDeal" aria-label="النوع">
@@ -68,7 +68,7 @@
                 <span>السعر الأقصى: <b id="mkMaxV">$250,000</b></span>
                 <input type="range" id="mkMax" min="50" max="${maxP}" step="1000" value="${maxP}">
               </div>
-              <button class="w-btn" id="mkReset" type="button">🔄 إعادة ضبط الفلاتر</button>
+              <button class="w-btn" id="mkReset" type="button"> إعادة ضبط الفلاتر</button>
             </div>
 
             <div class="mk-count-bar"><span id="mkCount">12 إعلان</span> متوفر حالياً بالمطابقة الحالية</div>

@@ -44,7 +44,7 @@
                 <button class="sd-nav-btn" data-tab="mentors" type="button">Mentors</button>
               </nav>
               <div class="sd-header-right">
-                <div class="sd-search"><span class="sd-search-icon">🔍</span><input type="text" placeholder="Search..." aria-label="Search"></div>
+                <div class="sd-search"><span class="sd-search-icon"></span><input type="text" placeholder="Search..." aria-label="Search"></div>
                 <button class="sd-badge-btn" type="button" aria-label="Notifications"><span class="sd-badge">1</span>🔔</button>
                 <div class="sd-user-avatar">
                   <img src="assets/logo.svg" alt="User Avatar">
@@ -245,7 +245,7 @@
                     <h4>Instructor Chen</h4>
                     <div class="sd-course-meta">Senior Principal Architect</div>
                     <div class="sd-mentor-tags"><span class="sd-mentor-tag">React</span><span class="sd-mentor-tag">System Design</span><span class="sd-mentor-tag">TypeScript</span></div>
-                    <div style="font-size:0.85rem;color:#ffbd2e;font-weight:700">⭐ 4.98 (142 Reviews)</div>
+                    <div style="font-size:0.85rem;color:#ffbd2e;font-weight:700"> 4.98 (142 Reviews)</div>
                     <button class="w-btn primary" type="button" data-mentor="Instructor Chen">Book 1-on-1 Session</button>
                   </div>
                   <div class="sd-mentor-card">
@@ -253,7 +253,7 @@
                     <h4>Sarah Jenkins</h4>
                     <div class="sd-course-meta">Lead Frontend Engineer</div>
                     <div class="sd-mentor-tags"><span class="sd-mentor-tag">UI/UX</span><span class="sd-mentor-tag">React Query</span><span class="sd-mentor-tag">Next.js</span></div>
-                    <div style="font-size:0.85rem;color:#ffbd2e;font-weight:700">⭐ 4.95 (98 Reviews)</div>
+                    <div style="font-size:0.85rem;color:#ffbd2e;font-weight:700"> 4.95 (98 Reviews)</div>
                     <button class="w-btn" type="button" data-mentor="Sarah Jenkins">Book 1-on-1 Session</button>
                   </div>
                   <div class="sd-mentor-card">
@@ -261,7 +261,7 @@
                     <h4>Alex Mercer</h4>
                     <div class="sd-course-meta">Cloud & DevOps Architect</div>
                     <div class="sd-mentor-tags"><span class="sd-mentor-tag">Node.js</span><span class="sd-mentor-tag">Docker</span><span class="sd-mentor-tag">Kubernetes</span></div>
-                    <div style="font-size:0.85rem;color:#ffbd2e;font-weight:700">⭐ 4.92 (84 Reviews)</div>
+                    <div style="font-size:0.85rem;color:#ffbd2e;font-weight:700"> 4.92 (84 Reviews)</div>
                     <button class="w-btn" type="button" data-mentor="Alex Mercer">Book 1-on-1 Session</button>
                   </div>
                 </div>
