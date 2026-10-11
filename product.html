@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنتج | Smart Land</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="product.css">
+</head>
+<body class="pd-body">
+
+<!-- Custom Progress Circle Cursor -->
+<div class="custom-cursor" id="customCursor">
+    <svg width="34" height="34" viewBox="0 0 34 34">
+        <!-- Background Track Ring -->
+        <circle class="cursor-track" cx="17" cy="17" r="14" />
+        <!-- Dynamic Scroll Progress Ring -->
+        <circle class="cursor-progress" id="cursorProgress" cx="17" cy="17" r="14" />
+        <!-- Center Dot -->
+        <circle class="cursor-dot" cx="17" cy="17" r="2.5" />
+    </svg>
+</div>
+
+<header class="navbar">
+    <div class="container nav-container">
+        <a href="index.html" class="logo-area" style="text-decoration:none;color:inherit">
+            <img src="assets/logo.svg" alt="Smart Land Logo" class="site-logo">
+            <span class="brand-name">Smart Land</span>
+        </a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html#portfolio">&rarr; العودة لمعرض المشاريع</a></li>
+                <li><a href="index.html#contact">تواصل معنا</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main id="pdPage">
+    <!-- Product preview -->
+    <section class="pd-hero container">
+        <div class="pd-hero-info">
+            <span class="pd-tag" id="pdTag"></span>
+            <h1 id="pdName"></h1>
+            <p class="pd-pitch" id="pdPitch"></p>
+            <ul class="pd-features" id="pdFeatures"></ul>
+            <div class="pd-actions">
+                <a href="#demo" class="btn-primary"><span>جرّب العرض التفاعلي</span></a>
+                <a href="index.html#contact" class="pd-link">اطلب عرضاً</a>
+            </div>
+        </div>
+        <figure class="pd-preview" id="pdPreview">
+            <picture>
+                <source id="pdSrcAvif" type="image/avif">
+                <source id="pdSrcWebp" type="image/webp">
+                <img id="pdImg" alt="" width="1280" height="800" decoding="async">
+            </picture>
+        </figure>
+    </section>
+
+    <!-- Working demo -->
+    <section class="pd-demo container" id="demo">
+        <div class="pd-demo-head">
+            <span class="badge-accent">Live Demo</span>
+            <h2 id="pdDemoTitle"></h2>
+            <p id="pdDemoNote"></p>
+        </div>
+        <div class="pd-window">
+            <div class="pd-window-bar">
+                <div class="pd-dots"><span></span><span></span><span></span></div>
+                <div class="pd-window-title" id="pdWindowTitle"></div>
+            </div>
+            <div class="pd-window-body" id="demoMount"></div>
+        </div>
+    </section>
+
+    <!-- Other products -->
+    <section class="pd-more container">
+        <h3>منتجات أخرى من Smart Land</h3>
+        <div class="pd-more-grid" id="pdMore"></div>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <p>© 2026 شركة Smart Land للحلول البرمجية والاستشارات التقنية. جميع الحقوق محفوظة.</p>
+        <p>مشروع مقرر نظم الوسائط المتعددة (ITE_BMM601 / ISE_MM) — الجامعة الافتراضية السورية</p>
+    </div>
+</footer>
+
+<script src="demos/signal.js"></script>
+<script src="demos/mykey.js"></script>
+<script src="demos/sada.js"></script>
+<script src="demos/welcome.js"></script>
+<script src="product.js"></script>
+</body>
+</html>

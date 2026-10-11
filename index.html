@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Land | أنظمة ذكية واستشارات تقنية</title>
+    <!-- Google Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Particle morph section styles (scoped to .try-solutions-section so nothing else is affected) -->
+    <style>
+        .try-solutions-section { --ps-bg:#000; --ps-fg:#fff; --ps-muted:#a8abb2;
+            position:relative; display:flex; direction:ltr; width:100%; height:clamp(480px, 80svh, 760px);
+            overflow:hidden; contain:layout paint; background:var(--ps-bg); color:var(--ps-fg);
+            font-family:"Outfit","Tajawal",system-ui,sans-serif; }
+        .try-solutions-section *, .try-solutions-section *::before, .try-solutions-section *::after { box-sizing:border-box; }
+        .try-solutions-section .solution-section { position:relative; flex:1 1 0; min-width:0; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+        .try-solutions-section .try-solution-background { position:absolute; inset:0; }
+        .try-solutions-section .try-solution-background canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
+        .try-solutions-section .try-solutions-content { position:relative; z-index:2; text-align:center; pointer-events:none; padding:0 16px; }
+        .try-solutions-section .try-solutions-content a { pointer-events:auto; }
+        .try-solutions-section .try-solution-label { display:inline-block; margin:0 0 18px; padding:4px 8px; font-size:11px; border:1px solid #1d1d1f; border-radius:4px; background:#050505; }
+        .try-solutions-section .header, .try-solutions-section .subhead { margin:0; font-size:clamp(28px,3.2vw,40px); line-height:1.1; letter-spacing:-.03em; font-weight:500; }
+        .try-solutions-section .subhead { color:var(--ps-muted); }
+        .try-solutions-section .solutions-cta { margin-top:32px; }
+        .try-solutions-section .button { position:relative; display:inline-block; padding:10px 18px; border-radius:999px; font-size:14px; text-decoration:none; transition:transform .2s; }
+        .try-solutions-section .button:hover { transform:scale(1.04); }
+        .try-solutions-section .button-primary { background:#eceef1; color:#111; }
+        .try-solutions-section .button-secondary { background:#0f0f10; color:#fff; border:1px solid #1c1c1e; }
+        @media (max-width:700px) {
+            .try-solutions-section { flex-direction:column; height:auto; }
+            .try-solutions-section .solution-section { flex:none; height:min(70svh, 460px); }
+        }
+    </style>
+</head>
+<body>
+<!-- Custom Progress Circle Cursor -->
+<div class="custom-cursor" id="customCursor">
+    <svg width="34" height="34" viewBox="0 0 34 34">
+        <!-- Background Track Ring -->
+        <circle class="cursor-track" cx="17" cy="17" r="14" />
+        <!-- Dynamic Scroll Progress Ring -->
+        <circle class="cursor-progress" id="cursorProgress" cx="17" cy="17" r="14" />
+        <!-- Center Dot -->
+        <circle class="cursor-dot" cx="17" cy="17" r="2.5" />
+    </svg>
+</div>
+
+<!-- Codrops-Style Page Transition Overlay Curtain -->
+<div class="page-transition-curtain" id="pageCurtain"></div>
+
+<!-- Sticky Navigation Bar -->
+<header class="navbar">
+    <div class="container nav-container">
+        <div class="logo-area">
+            <img src="assets/logo.svg" alt="Smart Land Logo" class="site-logo">
+            <span class="brand-name">Smart Land</span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#about">من نحن</a></li>
+                <li><a href="#portfolio">المشاريع</a></li>
+                <li><a href="#media">الفيديو التعريفي</a></li>
+                <li><a href="#contact">تواصل معنا</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero Section with Antigravity Interactive Particles -->
+<section class="hero">
+    <canvas id="bgParticles"></canvas>
+    <div class="container hero-content reveal-on-scroll">
+        <span class="badge-accent">منظومة تقنية متكاملة منذ 2011</span>
+        <h1>نبني المستقبل بحلول برمجية ذكية</h1>
+        <p>شركة رائدة متخصصة في ابتكار حلول تقنية متقدمة ومدعومة بالذكاء الاصطناعي لتمكين المؤسسات وقيادة التحول الرقمي.</p>
+        <a href="#portfolio" class="btn-primary particle-btn">
+            <span>استكشف مشاريعنا</span>
+        </a>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section">
+    <div class="container">
+        <div class="section-header reveal-on-scroll">
+            <h2 class="section-title">عن Smart Land</h2>
+            <p class="section-subtitle">شريكك الاستراتيجي في رحلة التحول الرقمي وهندسة البرمجيات الذكية.</p>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-card reveal-on-scroll">
+                <h3>رؤيتنا</h3>
+                <p>تمكين المؤسسات والقطاعات من الاستفادة القصوى من حلول الذكاء الاصطناعي لرفع الإنتاجية والكفاءة التشغيلية وصناعة أثر رقمي مستدام.</p>
+            </div>
+            <div class="about-card reveal-on-scroll">
+                <h3>رسالتنا</h3>
+                <p>تطوير برمجيات مخصصة وموثوقة تعتمد أفضل المعايير الهندسية والتقنية لتلبية الاحتياجات المتنامية لعملائنا وشركائنا حول العالم.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Section (Alternating Left/Right Antigravity Layout) -->
+<section id="portfolio" class="section">
+    <div class="container">
+        <div class="section-header reveal-on-scroll">
+            <h2 class="section-title">معرض المشاريع وقصص النجاح</h2>
+            <p class="section-subtitle">نماذج من حلولنا وتطبيقاتنا المبتكرة المصممة لأحدث بيئات العمل الذكية.</p>
+        </div>
+
+        <div class="antigravity-showcase">
+
+            <!-- Project 1: Smart Signal (Text Right, Image Left) -->
+            <div class="ag-card reveal-on-scroll">
+                <div class="ag-card-info">
+                    <span class="ag-tag">Accessibility AI</span>
+                    <h3 class="ag-title">Smart Signal 2.0</h3>
+                    <p class="ag-typewriter" data-text="منظومة متقدمة تعتمد خوارزميات الرؤية الحاسوبية لترجمة لغة الإشارة فورياً، مما يسهم في تمكين الصم وضعاف السمع ودمجهم تقنياً ومجتمعياً بكفاءة عالية."></p>
+                    <a href="product.html?item=smart-signal" class="btn-explore particle-btn transition-link">
+                        <span>Explore Interactive Product</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+                <div class="ag-card-visual">
+                    <div class="ag-glow-bg glow-cyan"></div>
+                    <div class="ag-canvas-surface">
+                        <picture><source srcset="assets/smart-signal.avif" type="image/avif"><source srcset="assets/smart-signal.webp" type="image/webp"><img src="assets/smart-signal.jpeg" alt="تطبيق Smart Signal" loading="lazy" decoding="async"></picture>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2: MyKey (Text Left, Image Right) -->
+            <div class="ag-card reveal-on-scroll">
+                <div class="ag-card-info">
+                    <span class="ag-tag">Smart Filters & Listings</span>
+                    <h3 class="ag-title">MyKey Platform | منظومة الفلترة والمطابقة</h3>
+                    <p class="ag-typewriter" data-text="اختبر سرعة التصفية الذكية للإعلانات المعتمدة وفصل المعروضات. منصة رقمية موحدة لإعلانات ووساطة العقارات والسيارات مع أدوات تصفية وتدفق عمل متكامل."></p>
+                    <a href="product.html?item=mykey" class="btn-explore particle-btn transition-link">
+                        <span>Explore Interactive Product</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+                <div class="ag-card-visual">
+                    <div class="ag-glow-bg glow-purple"></div>
+                    <div class="ag-canvas-surface">
+                        <picture><source srcset="assets/mykey.avif" type="image/avif"><source srcset="assets/mykey.webp" type="image/webp"><img src="assets/mykey.jpeg" alt="منصة MyKey" loading="lazy" decoding="async"></picture>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: Sada (Text Right, Image Left) -->
+            <div class="ag-card reveal-on-scroll">
+                <div class="ag-card-info">
+                    <span class="ag-tag">EdTech Ecosystem</span>
+                    <h3 class="ag-title">Sada Learning IDE</h3>
+                    <p class="ag-typewriter" data-text="بيئة تعليمية تفاعلية حديثة لإدارة المساقات والتدريب العملي عن بُعد، تتيح التعاون المباشر ومشاركة المشاريع البرمجية في الزمن الفعلي."></p>
+                    <a href="product.html?item=sada" class="btn-explore particle-btn transition-link">
+                        <span>Explore Interactive Product</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+                <div class="ag-card-visual">
+                    <div class="ag-glow-bg glow-blue"></div>
+                    <div class="ag-canvas-surface">
+                        <picture><source srcset="assets/sada.avif" type="image/avif"><source srcset="assets/sada.webp" type="image/webp"><img src="assets/sada.jpeg" alt="منصة Sada" loading="lazy" decoding="async"></picture>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4: Welcome (Text Left, Image Right) -->
+            <div class="ag-card reveal-on-scroll">
+                <div class="ag-card-info">
+                    <span class="ag-tag">Smart Commerce</span>
+                    <h3 class="ag-title">Welcome E-Commerce</h3>
+                    <p class="ag-typewriter" data-text="منظومة تسوق ذكية متعددة المتاجر مدعومة بحلول دفع مرنة، وإدارة لوجستية متطورة ترفع كفاءة تتبع الطلبات وتجربة المستهلك."></p>
+                    <a href="product.html?item=welcome" class="btn-explore particle-btn transition-link">
+                        <span>Explore Interactive Product</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+                <div class="ag-card-visual">
+                    <div class="ag-glow-bg glow-orange"></div>
+                    <div class="ag-canvas-surface">
+                        <picture><source srcset="assets/welcome.avif" type="image/avif"><source srcset="assets/welcome.webp" type="image/webp"><img src="assets/welcome.jpeg" alt="تطبيق Welcome" loading="lazy" decoding="async"></picture>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Video Showcase (Interactive Hidden Cursor & Lagged Watch Case Badge) -->
+<section id="media" class="section">
+    <div class="container">
+
+        <div class="media-intro-header reveal-on-scroll">
+            <div class="intro-left">
+                <h2 class="antigravity-headline">Built for developers<br>for the agent-first era</h2>
+            </div>
+            <div class="intro-right">
+                <p>شركة Smart Land تأسست عام 2011 لترسيخ الثقة البرمجية والحلول الذكية، سواء كنت مؤسسة كبرى تبني بنى تحتية رقمية أو فريقاً ريادياً يبتكر حلول الغد.</p>
+            </div>
+        </div>
+
+        <div class="watch-case-container reveal-on-scroll" id="watchCasePlayer">
+            <!-- Smooth Lagged Follow-Cursor Pill Badge -->
+            <div class="watch-case-badge" id="watchCaseBadge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span>Watch case</span>
+            </div>
+
+            <div class="video-display-frame">
+                <video id="promoVideo" poster="assets/hero.jpeg" preload="metadata" playsinline>
+                    <source src="assets/Promo-Video.webm" type="video/webm">
+                    <track src="assets/captions.vtt" kind="subtitles" srclang="ar" label="العربية" default>
+                    متصفحك لا يدعم تشغيل الفيديو.
+                </video>
+            </div>
+
+            <div class="watch-case-footer">
+                <div class="case-meta">
+                    <h4>Full stack developer case</h4>
+                    <p>بناء وإطلاق حلول برمجية موثوقة باختبارات مؤتمتة وتكامل ذكي ومستدام.</p>
+                </div>
+                <a href="#contact" class="case-link">
+                    <span>View case</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- Dual-Tier Callout Section (Google Antigravity 3D Particle Morphing) -->
+<section id="developer-tiers" class="try-solutions-section">
+    <div class="solution-section" data-shape="braces">
+        <div class="try-solution-background"><canvas></canvas></div>
+        <div class="try-solutions-content">
+            <p class="try-solution-label">Available at no charge</p>
+            <p class="header">For developers</p>
+            <p class="subhead">Achieve new heights</p>
+            <div class="solutions-cta"><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="button button-primary particle-btn">Download</a></div>
+        </div>
+    </div>
+    <div class="solution-section" data-shape="orbs">
+        <div class="try-solution-background"><canvas></canvas></div>
+        <div class="try-solutions-content">
+            <p class="try-solution-label">Now Available!</p>
+            <p class="header">For organizations</p>
+            <p class="subhead">Level up your entire team</p>
+            <div class="solutions-cta"><a href="#contact" class="button button-secondary particle-btn">Read More</a></div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Contact Form -->
+<section id="contact" class="section">
+    <div class="container">
+        <div class="section-header reveal-on-scroll">
+            <h2 class="section-title">تواصل معنا</h2>
+            <p class="section-subtitle">فريقنا مستعد دائماً لمناقشة استفساراتكم ومشاريعكم القادمة.</p>
+        </div>
+
+        <form class="contact-form reveal-on-scroll" id="contactForm">
+            <div class="form-group">
+                <label for="name">الاسم الكامل</label>
+                <input type="text" id="name" required placeholder="أدخل اسمك الكريم">
+            </div>
+            <div class="form-group">
+                <label for="email">البريد الإلكتروني</label>
+                <input type="email" id="email" required placeholder="name@domain.com">
+            </div>
+            <div class="form-group">
+                <label for="message">الرسالة</label>
+                <textarea id="message" rows="5" required placeholder="كيف يمكننا تقديم المساعدة؟"></textarea>
+            </div>
+            <button type="submit" class="btn-primary form-submit-btn particle-btn">
+                <span>إرسال الرسالة</span>
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container footer-content">
+        <p>© 2026 شركة Smart Land للحلول البرمجية والاستشارات التقنية. جميع الحقوق محفوظة.</p>
+        <p>مشروع مقرر نظم الوسائط المتعددة (ITE_BMM601 / ISE_MM) — الجامعة الافتراضية السورية</p>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
