@@ -7,8 +7,7 @@ The website showcases Smart Land's profile, core services, and featured projects
 * **Company Profile:** Corporate identity, vision, and service domains[cite: 1].
 * **Portfolio Showcase:** Flagship products including Smart Signal, MyKey, Sada, and Welcome[cite: 1].
 * **Optimized Media:** High-resolution digital imagery delivered strictly in `.webp` / `.avif` formats for fast performance[cite: 1].
-* **Interactive Video:** Promotional video with synchronized captioning (`.vtt`) and background audio[cite: 1].
-* **AI Integration:** AI-assisted content and asset generation[cite: 1].
+
 
 ## 🛠 Tech Stack
 * **HTML5:** Semantic document structure and media elements (`<video>`, `<track>`, `<picture>`)[cite: 1].
