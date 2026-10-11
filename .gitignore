@@ -1,0 +1,9 @@
+# IDE & Editor files
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Temporary & session history
+.brud/
+.artifacts/
