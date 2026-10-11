@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="100%" height="100%">
+  <defs>
+    <!-- Cyan to Deep Blue Linear Gradient -->
+    <linearGradient id="slCyanBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d2ff" />
+      <stop offset="100%" stop-color="#3a7bd5" />
+    </linearGradient>
+
+    <!-- Ultraviolet to Cyan Gradient -->
+    <linearGradient id="slPurpleCyan" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9d4edd" />
+      <stop offset="100%" stop-color="#00d2ff" />
+    </linearGradient>
+
+    <!-- Top Isometric Plane Light Gradient -->
+    <linearGradient id="slTopPlane" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#00d2ff" stop-opacity="0.75" />
+    </linearGradient>
+
+    <!-- Subtle Glow Filter -->
+    <filter id="slGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- ================= LOGO ICON / EMBLEM ================= -->
+  <g transform="translate(15, 12)">
+    <!-- Top Diamond / Platform Layer -->
+    <polygon points="28,4 52,18 28,32 4,18" fill="url(#slTopPlane)" />
+
+    <!-- Left Facet (Representing 'L' bracket foundation) -->
+    <polygon points="4,18 28,32 28,52 4,38" fill="url(#slCyanBlue)" />
+
+    <!-- Right Facet (Representing 'S' flow integration) -->
+    <polygon points="28,32 52,18 52,38 28,52" fill="url(#slPurpleCyan)" />
+
+    <!-- Central Floating Neural Circuit Node -->
+    <circle cx="28" cy="22" r="3" fill="#ffffff" filter="url(#slGlow)" />
+    
+    <!-- Accent Line -->
+    <line x1="28" y1="25" x2="28" y2="46" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="2 2" stroke-opacity="0.8" />
+  </g>
+
+  <!-- ================= BRAND TYPOGRAPHY ================= -->
+  <g transform="translate(85, 48)">
+    <!-- "Smart" in Bold Modern Sans -->
+    <text x="0" y="0" 
+          font-family="'Outfit', 'Segoe UI', system-ui, sans-serif" 
+          font-size="28" 
+          font-weight="800" 
+          letter-spacing="-0.5" 
+          fill="#ffffff">
+      Smart
+    </text>
+
+    <!-- "Land" in Cyan Gradient Accent -->
+    <text x="84" y="0" 
+          font-family="'Outfit', 'Segoe UI', system-ui, sans-serif" 
+          font-size="28" 
+          font-weight="400" 
+          letter-spacing="-0.5" 
+          fill="url(#slCyanBlue)">
+      Land
+    </text>
+
+    <!-- Est. 2011 Subtitle Tag -->
+    <text x="1" y="16" 
+          font-family="'Outfit', 'Segoe UI', system-ui, sans-serif" 
+          font-size="8.5" 
+          font-weight="600" 
+          letter-spacing="2.2" 
+          fill="#64748b">
+      SYSTEMS &amp; AI SOLUTIONS
+    </text>
+  </g>
+</svg>
