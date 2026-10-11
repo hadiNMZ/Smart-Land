@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 7. Codrops-Style Page Transition Overlay for External Tab Links
+    // 7. Codrops-Style Page Transition Overlay for Same-Tab Navigation Links
     const pageCurtain = document.getElementById('pageCurtain');
     document.querySelectorAll('.transition-link').forEach(link => {
         link.addEventListener('click', function (e) {
@@ -232,16 +232,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pageCurtain) {
                 pageCurtain.classList.add('active');
 
-                // Open in new tab after the curtain animation completes
+                // Navigate directly within the same tab after curtain animation completes
                 setTimeout(() => {
-                    window.open(targetUrl, '_blank', 'noopener,noreferrer');
-                    // Reset curtain overlay
-                    setTimeout(() => {
-                        pageCurtain.classList.remove('active');
-                    }, 400);
+                    window.location.href = targetUrl;
                 }, 450);
             } else {
-                window.open(targetUrl, '_blank', 'noopener,noreferrer');
+                window.location.href = targetUrl;
             }
         });
     });
