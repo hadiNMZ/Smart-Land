@@ -9,3 +9,7 @@
 .artifacts/
 .firebase/
 firebase-debug.log
+
+# Exported ZIP packages
+*.zip
+particle-morph-component/

@@ -1,5 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // 0. Mobile Navigation Drawer Toggle
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = navMenu.classList.toggle('open');
+            navToggle.classList.toggle('active', isOpen);
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        // Close on link click
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('open');
+                navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                navMenu.classList.remove('open');
+                navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+                navMenu.classList.remove('open');
+                navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
     // 1. Smooth Scrolling with Offset for Internal Anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -9,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetEl = document.querySelector(targetId);
             if (targetEl) {
                 e.preventDefault();
-                const navOffset = 70;
+                const navOffset = window.innerWidth <= 768 ? 60 : 70;
                 const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - navOffset;
 
                 window.scrollTo({
@@ -130,22 +170,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         animateBadge();
 
-        // Toggle playback on click
+        // Video play / pause state synchronization
+        promoVideo.addEventListener('play', () => {
+            watchCasePlayer.classList.add('is-playing');
+            watchCaseBadge.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                <span>Pause case</span>
+            `;
+        });
+
+        promoVideo.addEventListener('pause', () => {
+            watchCasePlayer.classList.remove('is-playing');
+            watchCaseBadge.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span>Watch case</span>
+            `;
+        });
+
+        // Toggle playback on click / tap
         watchCasePlayer.addEventListener('click', (e) => {
             if (e.target.closest('.case-link')) return;
 
             if (promoVideo.paused) {
                 promoVideo.play();
-                watchCaseBadge.innerHTML = `
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                    <span>Pause case</span>
-                `;
             } else {
                 promoVideo.pause();
-                watchCaseBadge.innerHTML = `
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    <span>Watch case</span>
-                `;
             }
         });
     }
@@ -381,6 +430,28 @@ document.addEventListener('DOMContentLoaded', () => {
             mouse.y = -2000;
         });
 
+        // Mobile touch interaction for Hero Particles
+        heroSection.addEventListener('touchstart', (e) => {
+            if (e.touches && e.touches.length > 0) {
+                const rect = heroSection.getBoundingClientRect();
+                mouse.x = e.touches[0].clientX - rect.left;
+                mouse.y = e.touches[0].clientY - rect.top;
+            }
+        }, { passive: true });
+
+        heroSection.addEventListener('touchmove', (e) => {
+            if (e.touches && e.touches.length > 0) {
+                const rect = heroSection.getBoundingClientRect();
+                mouse.x = e.touches[0].clientX - rect.left;
+                mouse.y = e.touches[0].clientY - rect.top;
+            }
+        }, { passive: true });
+
+        heroSection.addEventListener('touchend', () => {
+            mouse.x = -2000;
+            mouse.y = -2000;
+        }, { passive: true });
+
         window.addEventListener('resize', () => {
             width = canvas.width = heroSection.offsetWidth;
             height = canvas.height = heroSection.offsetHeight;
@@ -475,107 +546,113 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initAntigravityHeroParticles();
 
-    // 10. Custom Circular Scroll Progress Cursor (Self-healing & Top-Layer resilient)
-    const circumference = 2 * Math.PI * 14;
-    let mouseX = -100, mouseY = -100;
-    let cursorX = -100, cursorY = -100;
-    let isVisible = false;
+    // 10. Custom Circular Scroll Progress Cursor (Desktop with fine pointer only)
+    const isTouchPrimary = window.matchMedia('(hover: none) or (pointer: coarse)').matches;
+    if (isTouchPrimary) {
+        const oldC = document.getElementById('customCursor');
+        if (oldC) oldC.remove();
+    } else {
+        const circumference = 2 * Math.PI * 14;
+        let mouseX = -100, mouseY = -100;
+        let cursorX = -100, cursorY = -100;
+        let isVisible = false;
 
-    function getCursor() {
-        let c = document.getElementById('customCursor');
-        if (!c || !document.contains(c)) {
-            let old = document.getElementById('customCursor');
-            if (old) old.remove();
+        function getCursor() {
+            let c = document.getElementById('customCursor');
+            if (!c || !document.contains(c)) {
+                let old = document.getElementById('customCursor');
+                if (old) old.remove();
 
-            c = document.createElement('div');
-            c.className = 'custom-cursor' + (isVisible ? ' is-active' : '');
-            c.id = 'customCursor';
-            c.innerHTML = `<svg width="34" height="34" viewBox="0 0 34 34">
-                <circle class="cursor-track" cx="17" cy="17" r="14" />
-                <circle class="cursor-progress" id="cursorProgress" cx="17" cy="17" r="14" />
-                <circle class="cursor-dot" cx="17" cy="17" r="2.5" />
-            </svg>`;
-            const openDialog = document.querySelector('dialog[open]');
-            const parent = openDialog || document.body;
-            parent.appendChild(c);
+                c = document.createElement('div');
+                c.className = 'custom-cursor' + (isVisible ? ' is-active' : '');
+                c.id = 'customCursor';
+                c.innerHTML = `<svg width="34" height="34" viewBox="0 0 34 34">
+                    <circle class="cursor-track" cx="17" cy="17" r="14" />
+                    <circle class="cursor-progress" id="cursorProgress" cx="17" cy="17" r="14" />
+                    <circle class="cursor-dot" cx="17" cy="17" r="2.5" />
+                </svg>`;
+                const openDialog = document.querySelector('dialog[open]');
+                const parent = openDialog || document.body;
+                parent.appendChild(c);
 
-            const p = c.querySelector('#cursorProgress');
-            if (p) {
-                p.style.strokeDasharray = `${circumference}`;
-                p.style.strokeDashoffset = `${circumference}`;
+                const p = c.querySelector('#cursorProgress');
+                if (p) {
+                    p.style.strokeDasharray = `${circumference}`;
+                    p.style.strokeDashoffset = `${circumference}`;
+                }
             }
+            return c;
         }
-        return c;
-    }
 
-    getCursor();
+        getCursor();
 
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        const c = getCursor();
-        if (!isVisible && c) {
-            c.classList.add('is-active');
-            cursorX = mouseX;
-            cursorY = mouseY;
-            isVisible = true;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            const c = getCursor();
+            if (!isVisible && c) {
+                c.classList.add('is-active');
+                cursorX = mouseX;
+                cursorY = mouseY;
+                isVisible = true;
+            }
+        });
+
+        window.addEventListener('mouseleave', () => {
+            const c = getCursor();
+            if (c) c.classList.remove('is-active');
+            isVisible = false;
+        });
+
+        function updateCursorPosition() {
+            const c = getCursor();
+            if (c && isVisible) {
+                cursorX += (mouseX - cursorX) * 0.28;
+                cursorY += (mouseY - cursorY) * 0.28;
+                c.style.left = `${cursorX}px`;
+                c.style.top = `${cursorY}px`;
+            }
+            requestAnimationFrame(updateCursorPosition);
         }
-    });
+        updateCursorPosition();
 
-    window.addEventListener('mouseleave', () => {
-        const c = getCursor();
-        if (c) c.classList.remove('is-active');
-        isVisible = false;
-    });
+        function updateScrollProgress() {
+            const c = getCursor();
+            const progressCircle = c ? c.querySelector('#cursorProgress') : null;
+            if (!progressCircle) return;
 
-    function updateCursorPosition() {
-        const c = getCursor();
-        if (c && isVisible) {
-            cursorX += (mouseX - cursorX) * 0.28;
-            cursorY += (mouseY - cursorY) * 0.28;
-            c.style.left = `${cursorX}px`;
-            c.style.top = `${cursorY}px`;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+
+            const offset = circumference - (progress * circumference);
+            progressCircle.style.strokeDashoffset = offset;
         }
-        requestAnimationFrame(updateCursorPosition);
-    }
-    updateCursorPosition();
 
-    function updateScrollProgress() {
-        const c = getCursor();
-        const progressCircle = c ? c.querySelector('#cursorProgress') : null;
-        if (!progressCircle) return;
+        window.addEventListener('scroll', updateScrollProgress, { passive: true });
+        updateScrollProgress();
 
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+        const isInteractive = (target) => target && target.closest('a, button, input, textarea, select, label, summary, [role="button"], .particle-btn, .ag-card, .btn-explore, .transition-link');
 
-        const offset = circumference - (progress * circumference);
-        progressCircle.style.strokeDashoffset = offset;
-    }
+        document.addEventListener('mouseover', (e) => {
+            const c = getCursor();
+            if (c && isInteractive(e.target)) {
+                c.classList.add('cursor-hover');
+            }
+        });
 
-    window.addEventListener('scroll', updateScrollProgress, { passive: true });
-    updateScrollProgress();
+        document.addEventListener('mouseout', (e) => {
+            const c = getCursor();
+            if (c && isInteractive(e.target)) {
+                c.classList.remove('cursor-hover');
+            }
+        });
 
-    const isInteractive = (target) => target && target.closest('a, button, input, textarea, select, label, summary, [role="button"], .particle-btn, .ag-card, .btn-explore, .transition-link');
-
-    document.addEventListener('mouseover', (e) => {
-        const c = getCursor();
-        if (c && isInteractive(e.target)) {
-            c.classList.add('cursor-hover');
+        const watchCase = document.getElementById('watchCasePlayer');
+        if (watchCase) {
+            watchCase.addEventListener('mouseenter', () => document.body.classList.add('inside-video'));
+            watchCase.addEventListener('mouseleave', () => document.body.classList.remove('inside-video'));
         }
-    });
-
-    document.addEventListener('mouseout', (e) => {
-        const c = getCursor();
-        if (c && isInteractive(e.target)) {
-            c.classList.remove('cursor-hover');
-        }
-    });
-
-    const watchCase = document.getElementById('watchCasePlayer');
-    if (watchCase) {
-        watchCase.addEventListener('mouseenter', () => document.body.classList.add('inside-video'));
-        watchCase.addEventListener('mouseleave', () => document.body.classList.remove('inside-video'));
     }
 
     // Top Layer Dialog Cursor Handler: Keeps custom cursor on top of native <dialog> modals
@@ -617,7 +694,8 @@ function initParticleMorphSections() {
 
     const IDLE = [168, 171, 178], BLUE = [52, 107, 241], RED = [255, 70, 65];
     const RED_SHARE = 0.03;   // fraction of particles that are red
-    const N_IDLE = 1900, N_SHAPE = 1150, N_SPAWN = 70, FOCAL = 900;
+    const isMobileScreen = window.innerWidth <= 768;
+    const N_IDLE = isMobileScreen ? 950 : 1900, N_SHAPE = isMobileScreen ? 600 : 1150, N_SPAWN = 70, FOCAL = 900;
     const FLICKER = 0.35;     // 0 = smooth glow, 1 = strong flicker
     const FIT = 0.6;          // how much of the container the shape may fill (0-1)
     const GLOW = 0.16;        // overall glow strength
@@ -690,6 +768,28 @@ function initParticleMorphSections() {
                 this.tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
                 this.ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
             });
+            // Mobile touch interactions for 3D Particle Morph
+            el.addEventListener('touchstart', e => {
+                this.hover = true;
+                if (e.touches && e.touches.length > 0) {
+                    const r = el.getBoundingClientRect();
+                    this.tx = ((e.touches[0].clientX - r.left) / r.width - 0.5) * 2;
+                    this.ty = ((e.touches[0].clientY - r.top) / r.height - 0.5) * 2;
+                }
+            }, { passive: true });
+            el.addEventListener('touchmove', e => {
+                if (e.touches && e.touches.length > 0) {
+                    const r = el.getBoundingClientRect();
+                    this.tx = ((e.touches[0].clientX - r.left) / r.width - 0.5) * 2;
+                    this.ty = ((e.touches[0].clientY - r.top) / r.height - 0.5) * 2;
+                }
+            }, { passive: true });
+            el.addEventListener('touchend', () => {
+                setTimeout(() => {
+                    this.hover = false;
+                    this.tx = this.ty = 0;
+                }, 1200);
+            }, { passive: true });
             // Ignore sub-pixel changes so the canvas can never feed back into layout.
             new ResizeObserver(() => {
                 const r = el.getBoundingClientRect();

@@ -78,127 +78,170 @@
     const demo = window.SL_DEMOS && window.SL_DEMOS[p.demo];
     if (demo) demo(mount); else mount.textContent = 'تعذر تحميل العرض.';
 
-    // Custom Circular Scroll Progress Cursor (Self-healing & Top-Layer resilient)
-    const circumference = 2 * Math.PI * 14;
-    let mouseX = -100, mouseY = -100;
-    let cursorX = -100, cursorY = -100;
-    let isVisible = false;
+    // Mobile Navigation Drawer Toggle
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
 
-    function getCursor() {
-        let c = document.getElementById('customCursor');
-        if (!c || !document.contains(c)) {
-            let old = document.getElementById('customCursor');
-            if (old) old.remove();
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = navMenu.classList.toggle('open');
+            navToggle.classList.toggle('active', isOpen);
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+        });
 
-            c = document.createElement('div');
-            c.className = 'custom-cursor' + (isVisible ? ' is-active' : '');
-            c.id = 'customCursor';
-            c.innerHTML = `<svg width="34" height="34" viewBox="0 0 34 34">
-                <circle class="cursor-track" cx="17" cy="17" r="14" />
-                <circle class="cursor-progress" id="cursorProgress" cx="17" cy="17" r="14" />
-                <circle class="cursor-dot" cx="17" cy="17" r="2.5" />
-            </svg>`;
-            const openDialog = document.querySelector('dialog[open]');
-            const parent = openDialog || document.body;
-            parent.appendChild(c);
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('open');
+                navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
 
-            const p = c.querySelector('#cursorProgress');
-            if (p) {
-                p.style.strokeDasharray = `${circumference}`;
-                p.style.strokeDashoffset = `${circumference}`;
+        document.addEventListener('click', (e) => {
+            if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                navMenu.classList.remove('open');
+                navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
             }
-        }
-        return c;
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+                navMenu.classList.remove('open');
+                navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
     }
 
-    getCursor();
+    // Custom Circular Scroll Progress Cursor (Fine pointer only)
+    const isTouchDevice = window.matchMedia('(hover: none) or (pointer: coarse)').matches;
+    if (isTouchDevice) {
+        const oldCursor = document.getElementById('customCursor');
+        if (oldCursor) oldCursor.remove();
+    } else {
+        const circumference = 2 * Math.PI * 14;
+        let mouseX = -100, mouseY = -100;
+        let cursorX = -100, cursorY = -100;
+        let isVisible = false;
 
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        const c = getCursor();
-        if (!isVisible && c) {
-            c.classList.add('is-active');
-            cursorX = mouseX;
-            cursorY = mouseY;
-            isVisible = true;
+        function getCursor() {
+            let c = document.getElementById('customCursor');
+            if (!c || !document.contains(c)) {
+                let old = document.getElementById('customCursor');
+                if (old) old.remove();
+
+                c = document.createElement('div');
+                c.className = 'custom-cursor' + (isVisible ? ' is-active' : '');
+                c.id = 'customCursor';
+                c.innerHTML = `<svg width="34" height="34" viewBox="0 0 34 34">
+                    <circle class="cursor-track" cx="17" cy="17" r="14" />
+                    <circle class="cursor-progress" id="cursorProgress" cx="17" cy="17" r="14" />
+                    <circle class="cursor-dot" cx="17" cy="17" r="2.5" />
+                </svg>`;
+                const openDialog = document.querySelector('dialog[open]');
+                const parent = openDialog || document.body;
+                parent.appendChild(c);
+
+                const p = c.querySelector('#cursorProgress');
+                if (p) {
+                    p.style.strokeDasharray = `${circumference}`;
+                    p.style.strokeDashoffset = `${circumference}`;
+                }
+            }
+            return c;
         }
-    });
 
-    window.addEventListener('mouseleave', () => {
-        const c = getCursor();
-        if (c) c.classList.remove('is-active');
-        isVisible = false;
-    });
+        getCursor();
 
-    function updateCursorPosition() {
-        const c = getCursor();
-        if (c && isVisible) {
-            cursorX += (mouseX - cursorX) * 0.28;
-            cursorY += (mouseY - cursorY) * 0.28;
-            c.style.left = `${cursorX}px`;
-            c.style.top = `${cursorY}px`;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            const c = getCursor();
+            if (!isVisible && c) {
+                c.classList.add('is-active');
+                cursorX = mouseX;
+                cursorY = mouseY;
+                isVisible = true;
+            }
+        });
+
+        window.addEventListener('mouseleave', () => {
+            const c = getCursor();
+            if (c) c.classList.remove('is-active');
+            isVisible = false;
+        });
+
+        function updateCursorPosition() {
+            const c = getCursor();
+            if (c && isVisible) {
+                cursorX += (mouseX - cursorX) * 0.28;
+                cursorY += (mouseY - cursorY) * 0.28;
+                c.style.left = `${cursorX}px`;
+                c.style.top = `${cursorY}px`;
+            }
+            requestAnimationFrame(updateCursorPosition);
         }
-        requestAnimationFrame(updateCursorPosition);
-    }
-    updateCursorPosition();
+        updateCursorPosition();
 
-    function updateScrollProgress() {
-        const c = getCursor();
-        const progressCircle = c ? c.querySelector('#cursorProgress') : null;
-        if (!progressCircle) return;
+        function updateScrollProgress() {
+            const c = getCursor();
+            const progressCircle = c ? c.querySelector('#cursorProgress') : null;
+            if (!progressCircle) return;
 
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
 
-        const offset = circumference - (progress * circumference);
-        progressCircle.style.strokeDashoffset = offset;
-    }
-
-    window.addEventListener('scroll', updateScrollProgress, { passive: true });
-    updateScrollProgress();
-
-    const isInteractive = (target) => target && target.closest('a, button, input, textarea, select, label, summary, [role="button"], .pd-more-card, .w-btn, .mk-card, .mk-fav, .sd-lessons button, .wl-prod, .wl-order, [data-track], [data-add], [data-close]');
-
-    document.addEventListener('mouseover', (e) => {
-        const c = getCursor();
-        if (c && isInteractive(e.target)) {
-            c.classList.add('cursor-hover');
+            const offset = circumference - (progress * circumference);
+            progressCircle.style.strokeDashoffset = offset;
         }
-    });
 
-    document.addEventListener('mouseout', (e) => {
-        const c = getCursor();
-        if (c && isInteractive(e.target)) {
-            c.classList.remove('cursor-hover');
-        }
-    });
+        window.addEventListener('scroll', updateScrollProgress, { passive: true });
+        updateScrollProgress();
 
-    // Top Layer Dialog Cursor Handler: Keeps custom cursor on top of native <dialog> modals
-    if (typeof HTMLDialogElement !== 'undefined') {
-        const origShowModal = HTMLDialogElement.prototype.showModal;
-        if (origShowModal && !HTMLDialogElement.prototype._cursorPatched) {
-            HTMLDialogElement.prototype._cursorPatched = true;
-            HTMLDialogElement.prototype.showModal = function () {
-                origShowModal.apply(this, arguments);
-                const c = getCursor();
-                if (c) this.appendChild(c);
-            };
-            const origClose = HTMLDialogElement.prototype.close;
-            HTMLDialogElement.prototype.close = function () {
-                origClose.apply(this, arguments);
+        const isInteractive = (target) => target && target.closest('a, button, input, textarea, select, label, summary, [role="button"], .pd-more-card, .w-btn, .mk-card, .mk-fav, .sd-lessons button, .wl-prod, .wl-order, [data-track], [data-add], [data-close]');
+
+        document.addEventListener('mouseover', (e) => {
+            const c = getCursor();
+            if (c && isInteractive(e.target)) {
+                c.classList.add('cursor-hover');
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            const c = getCursor();
+            if (c && isInteractive(e.target)) {
+                c.classList.remove('cursor-hover');
+            }
+        });
+
+        // Top Layer Dialog Cursor Handler: Keeps custom cursor on top of native <dialog> modals
+        if (typeof HTMLDialogElement !== 'undefined') {
+            const origShowModal = HTMLDialogElement.prototype.showModal;
+            if (origShowModal && !HTMLDialogElement.prototype._cursorPatched) {
+                HTMLDialogElement.prototype._cursorPatched = true;
+                HTMLDialogElement.prototype.showModal = function () {
+                    origShowModal.apply(this, arguments);
+                    const c = getCursor();
+                    if (c) this.appendChild(c);
+                };
+                const origClose = HTMLDialogElement.prototype.close;
+                HTMLDialogElement.prototype.close = function () {
+                    origClose.apply(this, arguments);
+                    const c = getCursor();
+                    if (c && c.parentElement !== document.body) {
+                        document.body.appendChild(c);
+                    }
+                };
+            }
+            document.addEventListener('close', () => {
                 const c = getCursor();
                 if (c && c.parentElement !== document.body) {
                     document.body.appendChild(c);
                 }
-            };
+            }, true);
         }
-        document.addEventListener('close', () => {
-            const c = getCursor();
-            if (c && c.parentElement !== document.body) {
-                document.body.appendChild(c);
-            }
-        }, true);
     }
 })();
