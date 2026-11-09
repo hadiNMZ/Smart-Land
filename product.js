@@ -24,13 +24,13 @@
         },
         'sada': {
             demo: 'sada', img: 'sada', accent: '#5b9cf0', rgb: '91,156,240',
-            tag: 'EdTech Ecosystem', name: 'Sada Learning IDE',
-            alt: 'واجهة منصة Sada للتعلم البرمجي والتدريب العملي',
-            pitch: 'بيئة تعليمية تفاعلية حديثة لإدارة المساقات والتدريب العملي عن بُعد، تتيح التعاون المباشر ومشاركة المشاريع البرمجية في الزمن الفعلي.',
-            features: ['محرر أكواد سحابي يعمل في الزمن الفعلي', 'تصحيح تلقائي واختبارات تفاعلية للمساقات', 'إدارة البيئة التعليمية والتدريب العملي'],
-            demoTitle: 'اكتب الكود وشغّله تفاعلياً',
-            demoNote: 'اكتب JavaScript حقيقياً، شغّله في بيئة معزولة، ثم افحص الحل ليُصحَّح تلقائياً. تقدمك يُحفظ في متصفحك.',
-            window: 'Sada Learning IDE — Interactive Code Lab'
+            tag: 'EdTech Ecosystem & Python Compiler', name: 'Sada Learning IDE | مفسّر ومترجم بايثون المصغّر',
+            alt: 'واجهة منصة Sada للتعلم البرمجي ومترجم بايثون التفاعلي',
+            pitch: 'بيئة برمجية تفاعلية حديثة ومترجم Python مصغّر داخل المتصفح، تتيح كتابة وتشغيل أكواد بايثون الحقيقية واختبار الخوارزميات في الزمن الفعلي.',
+            features: ['مترجم بايثون مدمج ينفذ الكود فورياً في المتصفح', 'فحص تلقائي للحلول واختبارات برمجية تفاعلية', 'إدارة البيئة التعليمية وتعدد الملفات البرمجية'],
+            demoTitle: 'محرر ومترجم بايثون التفاعلي',
+            demoNote: 'اكتب كود Python حقيقياً، شغّله فوراً في المتصفح لعرض المخرجات، وافحص الدوال لاجتياز الاختبارات المؤتمتة.',
+            window: 'Sada Learning IDE — In-Browser Python Compiler'
         },
         'welcome': {
             demo: 'welcome', img: 'welcome', accent: '#ff9a3d', rgb: '255,154,61',
@@ -58,7 +58,8 @@
     $('pdTag').textContent = p.tag;
     $('pdName').textContent = p.name;
     $('pdPitch').textContent = p.pitch;
-    $('pdFeatures').innerHTML = p.features.map(f => `<li><span class="pd-check">✓</span>${f}</li>`).join('');
+    const checkSvg = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+    $('pdFeatures').innerHTML = p.features.map(f => `<li><span class="pd-check">${checkSvg}</span>${f}</li>`).join('');
     $('pdSrcAvif').srcset = `assets/${p.img}.avif`;
     $('pdSrcWebp').srcset = `assets/${p.img}.webp`;
     const img = $('pdImg');
@@ -113,6 +114,20 @@
                 navToggle.setAttribute('aria-expanded', 'false');
             }
         });
+    }
+
+    // Top Navigation Bar Scrolled Styling
+    const pdNavbar = document.querySelector('.navbar');
+    if (pdNavbar) {
+        const updatePdNavbar = () => {
+            if (window.scrollY > 20) {
+                pdNavbar.classList.add('scrolled');
+            } else {
+                pdNavbar.classList.remove('scrolled');
+            }
+        };
+        window.addEventListener('scroll', updatePdNavbar, { passive: true });
+        updatePdNavbar();
     }
 
     // Custom Circular Scroll Progress Cursor (Fine pointer only)

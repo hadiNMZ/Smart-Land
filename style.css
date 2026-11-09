@@ -43,6 +43,7 @@ body {
     overflow-x: hidden;
     width: 100%;
     min-height: 100vh;
+    padding-top: 68px; /* Offset for always-fixed top navigation bar */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -80,16 +81,26 @@ body {
     pointer-events: all;
 }
 
-/* Sticky Navbar */
+/* Always-Fixed Top Navbar */
 .navbar {
-    background-color: rgba(0, 0, 0, 0.82);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 1000;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 9999;
     padding-top: var(--sat);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar.scrolled {
+    background-color: rgba(4, 6, 12, 0.96);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
 }
 
 .nav-container {

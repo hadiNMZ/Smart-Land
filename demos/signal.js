@@ -4,10 +4,12 @@
     const CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/';
     // pattern = thumb,index,middle,ring,pinky (1 = extended)
     const MAP = {
-        '11111': ['👋', 'مرحباً'], '00000': ['✊', 'نعم'], '01000': ['☝️', 'انتظر'], '01100': ['✌️', 'شكراً'],
-        '10000': ['👍', 'ممتاز'], '11001': ['🤟', 'أحبك'], '10001': ['🤙', 'اتصل بي'], '01110': ['🖖', 'ثلاثة'], '01111': ['🖐️', 'توقف']
+        '11111': ['open', 'مرحباً'], '00000': ['fist', 'نعم'], '01000': ['point', 'انتظر'], '01100': ['peace', 'شكراً'],
+        '10000': ['thumb', 'ممتاز'], '11001': ['love', 'أحبك'], '10001': ['call', 'اتصل بي'], '01110': ['three', 'ثلاثة'], '01111': ['four', 'توقف']
     };
     const CONN = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
+
+    const handSvg = (active = false) => `<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="${active ? 'var(--accent)' : 'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;${active ? 'filter:drop-shadow(0 0 8px rgba(var(--accent-rgb),.6));' : 'opacity:.5;'}"><path d="M18 11V6a2 2 0 0 0-4 0v5"></path><path d="M14 10V4a2 2 0 0 0-4 0v7"></path><path d="M10 10.5V6a2 2 0 0 0-4 0v8"></path><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-16 0v-2"></path></svg>`;
 
     function loadScript(src) {
         return new Promise((res, rej) => {
@@ -32,7 +34,7 @@
               <video id="sgVideo" playsinline muted></video>
               <canvas id="sgCanvas"></canvas>
               <div class="sg-live" id="sgLive"><i></i>LIVE</div>
-              <div class="sg-overlay" id="sgOverlay"><div class="big">🖐️</div><div id="sgStatus">اضغط «تشغيل الكاميرا» وارفع يدك أمامها.<br><span class="w-note">يعمل كل شيء داخل متصفحك، ولا يُرسل أي فيديو.</span></div></div>
+              <div class="sg-overlay" id="sgOverlay"><div class="big">${handSvg(true)}</div><div id="sgStatus">اضغط «تشغيل الكاميرا» وارفع يدك أمامها.<br><span class="w-note">يعمل كل شيء داخل متصفحك، ولا يُرسل أي فيديو.</span></div></div>
             </div>
             <div class="sg-side">
               <div class="sg-controls">
@@ -40,11 +42,11 @@
                 <button class="w-btn" id="sgStop" type="button" disabled>إيقاف</button>
                 <button class="w-btn active" id="sgMirror" type="button">مرآة</button>
               </div>
-              <div class="sg-out"><div class="emoji" id="sgEmoji">🤚</div><div class="text" id="sgText">—</div>
+              <div class="sg-out"><div class="emoji" id="sgEmoji">${handSvg(false)}</div><div class="text" id="sgText">—</div>
                 <div class="conf" id="sgConf">لا توجد يد</div><div class="sg-bar"><i id="sgBar"></i></div></div>
               <div><div class="w-note" style="margin-bottom:6px">السجل</div><ul class="sg-hist" id="sgHist"></ul></div>
               <div><div class="w-note" style="margin-bottom:6px">الإشارات المدعومة</div>
-                <div class="sg-guide">${Object.values(MAP).map(g => `<span>${g[0]} ${g[1]}</span>`).join('')}</div></div>
+                <div class="sg-guide">${Object.values(MAP).map(g => `<span>${g[1]}</span>`).join('')}</div></div>
             </div>
           </div>`;
         const $ = id => mount.querySelector('#' + id);
@@ -54,7 +56,7 @@
         function status(msg) { $('sgOverlay').classList.remove('hide'); $('sgStatus').innerHTML = msg; }
         function show(pat, conf) {
             const g = MAP[pat];
-            $('sgEmoji').textContent = g ? g[0] : '🤚';
+            $('sgEmoji').innerHTML = handSvg(!!g);
             $('sgText').textContent = g ? g[1] : (pat ? 'إشارة غير معروفة' : '—');
             $('sgConf').textContent = pat ? 'الثقة ' + Math.round(conf * 100) + '%' : 'لا توجد يد';
             $('sgBar').style.width = Math.round(conf * 100) + '%';
@@ -63,7 +65,7 @@
             if (!MAP[pat] || pat === committed) return;
             committed = pat;
             const li = document.createElement('li');
-            li.innerHTML = `<span>${MAP[pat][0]} ${MAP[pat][1]}</span><span class="w-note">${new Date().toLocaleTimeString('ar-SY')}</span>`;
+            li.innerHTML = `<span>${MAP[pat][1]}</span><span class="w-note">${new Date().toLocaleTimeString('ar-SY')}</span>`;
             $('sgHist').prepend(li);
             while ($('sgHist').children.length > 8) $('sgHist').lastChild.remove();
         }

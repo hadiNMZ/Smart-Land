@@ -115,12 +115,14 @@
                 chip.classList.toggle('active', chip.dataset.city === st.city);
             });
 
+            const heartSvg = filled => `<svg width="15" height="15" viewBox="0 0 24 24" fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`;
+
             $('mkGrid').innerHTML = r.length ? r.map(x => `
               <article class="mk-card">
                 <div class="mk-thumb" style="background:linear-gradient(135deg,hsl(${x.hue} 55% 22%),hsl(${(x.hue + 40) % 360} 60% 12%))">
                   ${ICONS[x.cat]}
                   <span class="mk-deal">${DEAL[x.deal]}</span>
-                  <button class="mk-fav ${favs.includes(x.id) ? 'on' : ''}" data-fav="${x.id}" type="button" aria-label="مفضلة">${favs.includes(x.id) ? '♥' : '♡'}</button>
+                  <button class="mk-fav ${favs.includes(x.id) ? 'on' : ''}" data-fav="${x.id}" type="button" aria-label="مفضلة">${heartSvg(favs.includes(x.id))}</button>
                 </div>
                 <div class="mk-body">
                   <h4>${x.title}</h4>
@@ -160,7 +162,8 @@
 
             dlg.querySelector('#mkForm').onsubmit = e => {
                 e.preventDefault();
-                dlg.querySelector('#mkForm').outerHTML = '<div class="w-msg ok">✓ تم إرسال استفسارك بنجاح إلى البائع (عرض تجريبي).</div>';
+                const okIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-inline-end:6px;"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                dlg.querySelector('#mkForm').outerHTML = `<div class="w-msg ok">${okIcon}تم إرسال استفسارك بنجاح إلى البائع (عرض تجريبي).</div>`;
             };
         }
 

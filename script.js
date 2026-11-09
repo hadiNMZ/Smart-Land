@@ -40,6 +40,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Top Navigation Bar Scrolled Styling
+    const navbarEl = document.querySelector('.navbar');
+    if (navbarEl) {
+        const updateNavbarScroll = () => {
+            if (window.scrollY > 20) {
+                navbarEl.classList.add('scrolled');
+            } else {
+                navbarEl.classList.remove('scrolled');
+            }
+        };
+        window.addEventListener('scroll', updateNavbarScroll, { passive: true });
+        updateNavbarScroll();
+    }
+
     // 1. Smooth Scrolling with Offset for Internal Anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
