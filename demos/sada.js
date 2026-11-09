@@ -308,7 +308,7 @@ print(fibonacci(8))
                 <div class="sd-search"><span class="sd-search-icon"></span><input type="text" placeholder="Search Python docs..." aria-label="Search"></div>
                 <button class="sd-badge-btn" type="button" aria-label="Notifications"><span class="sd-badge">1</span>${SVG.bell}</button>
                 <div class="sd-user-avatar">
-                  <img src="assets/logo.svg" alt="User Avatar">
+                  <span class="sd-avatar-icon" style="display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:rgba(var(--accent-rgb),.15);color:var(--accent);">${SVG.avatarUser}</span>
                   <span>Sarah J.</span>
                 </div>
               </div>
