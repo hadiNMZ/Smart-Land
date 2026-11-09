@@ -147,6 +147,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const promoVideo = document.getElementById('promoVideo');
 
     if (watchCasePlayer && watchCaseBadge && promoVideo) {
+        // Ensure subtitles (captions track) are active and showing
+        const activateSubtitles = () => {
+            if (promoVideo.textTracks && promoVideo.textTracks[0]) {
+                promoVideo.textTracks[0].mode = 'showing';
+            }
+        };
+        activateSubtitles();
+        promoVideo.addEventListener('loadedmetadata', activateSubtitles);
+
         let mouseX = 0, mouseY = 0;
         let badgeX = 0, badgeY = 0;
         let isHovered = false;

@@ -639,6 +639,22 @@ body {
     display: block;
 }
 
+/* Subtitles / Video Track Styling */
+.video-display-frame video::cue,
+video::cue {
+    background-color: rgba(6, 9, 18, 0.88);
+    color: #ffffff;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.5;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+}
+
 .watch-case-footer {
     display: flex;
     justify-content: space-between;
@@ -1430,6 +1446,10 @@ body.inside-video .custom-cursor {
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+    video::cue {
+        font-size: 0.92rem;
+        padding: 4px 10px;
     }
     /* Stationary touch-friendly centered play badge on mobile */
     .watch-case-badge {
