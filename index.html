@@ -8,33 +8,37 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=4">
 
     <!-- Particle morph section styles (scoped to .try-solutions-section so nothing else is affected) -->
     <style>
         .try-solutions-section { --ps-bg:#000; --ps-fg:#fff; --ps-muted:#a8abb2;
-            position:relative; display:flex; direction:ltr; width:100%; height:clamp(480px, 80svh, 760px);
+            position:relative; display:flex; direction:ltr; width:100%; height:clamp(460px, 72svh, 680px);
             overflow:hidden; contain:layout paint; background:var(--ps-bg); color:var(--ps-fg);
-            font-family:"Outfit","Tajawal",system-ui,sans-serif; }
+            font-family:"Outfit","Tajawal",system-ui,sans-serif; border-top:1px solid rgba(255,255,255,0.06); }
         .try-solutions-section *, .try-solutions-section *::before, .try-solutions-section *::after { box-sizing:border-box; }
         .try-solutions-section .solution-section { position:relative; flex:1 1 0; min-width:0; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+        .try-solutions-section .solution-section:first-child { border-right:1px solid rgba(255,255,255,0.06); }
         .try-solutions-section .try-solution-background { position:absolute; inset:0; }
         .try-solutions-section .try-solution-background canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
         .try-solutions-section .try-solutions-content { position:relative; z-index:2; text-align:center; pointer-events:none; padding:0 20px; width:100%; max-width:600px; }
         .try-solutions-section .try-solutions-content a { pointer-events:auto; }
-        .try-solutions-section .try-solution-label { display:inline-block; margin:0 0 16px; padding:4px 10px; font-size:11px; border:1px solid #1d1d1f; border-radius:4px; background:#050505; }
-        .try-solutions-section .header, .try-solutions-section .subhead { margin:0; font-size:clamp(24px, 3.2vw, 40px); line-height:1.15; letter-spacing:-.03em; font-weight:500; }
+        .try-solutions-section .try-solution-label { display:inline-block; margin:0 0 12px; padding:4px 10px; font-size:11px; border:1px solid #1d1d1f; border-radius:4px; background:#050505; }
+        .try-solutions-section .header, .try-solutions-section .subhead { margin:0; font-size:clamp(22px, 3vw, 38px); line-height:1.18; letter-spacing:-.03em; font-weight:500; }
         .try-solutions-section .subhead { color:var(--ps-muted); }
-        .try-solutions-section .solutions-cta { margin-top:28px; }
-        .try-solutions-section .button { position:relative; display:inline-flex; align-items:center; justify-content:center; padding:12px 24px; border-radius:999px; font-size:14px; min-height:44px; text-decoration:none; transition:transform .2s; }
+        .try-solutions-section .solutions-cta { margin-top:24px; }
+        .try-solutions-section .button { position:relative; display:inline-flex; align-items:center; justify-content:center; padding:11px 24px; border-radius:999px; font-size:14px; min-height:44px; text-decoration:none; transition:transform .2s; }
         .try-solutions-section .button:hover { transform:scale(1.04); }
         .try-solutions-section .button-primary { background:#eceef1; color:#111; }
         .try-solutions-section .button-secondary { background:#0f0f10; color:#fff; border:1px solid #1c1c1e; }
         @media (max-width:768px) {
             .try-solutions-section { flex-direction:column; height:auto; }
-            .try-solutions-section .solution-section { flex:none; height:clamp(340px, 48svh, 420px); width:100%; }
-            .try-solutions-section .header, .try-solutions-section .subhead { font-size:clamp(22px, 5.5vw, 34px); }
-            .try-solutions-section .solutions-cta { margin-top:20px; }
+            .try-solutions-section .solution-section { flex:none; height:clamp(220px, 34svh, 270px); width:100%; padding:18px 14px; }
+            .try-solutions-section .solution-section:first-child { border-right:none; border-bottom:1px solid rgba(255,255,255,0.08); }
+            .try-solutions-section .try-solution-label { margin-bottom:8px; font-size:10px; }
+            .try-solutions-section .header, .try-solutions-section .subhead { font-size:clamp(18px, 4.8vw, 25px); }
+            .try-solutions-section .solutions-cta { margin-top:14px; }
+            .try-solutions-section .button { padding:9px 20px; font-size:13px; min-height:40px; }
         }
     </style>
 </head>
@@ -135,7 +139,9 @@
                 <div class="ag-card-visual">
                     <div class="ag-glow-bg glow-cyan"></div>
                     <div class="ag-canvas-surface">
-                        <video src="assets\Smart_Signal_2.0.webm" autoplay muted loop controls width="100%"></video>
+                        <a href="product.html?item=smart-signal" class="ag-thumb-link transition-link" aria-label="عرض منتج Smart Signal 2.0 والفيديو الترويجي">
+                            <picture><source srcset="assets/smart-signal.avif" type="image/avif"><source srcset="assets/smart-signal.webp" type="image/webp"><img src="assets/smart-signal.webp" alt="تطبيق Smart Signal" loading="lazy" decoding="async"></picture>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -154,7 +160,9 @@
                 <div class="ag-card-visual">
                     <div class="ag-glow-bg glow-purple"></div>
                     <div class="ag-canvas-surface">
-                        <video src="assets\MyKey Platform-1.webm" autoplay muted loop controls width="100%"></video>
+                        <a href="product.html?item=mykey" class="ag-thumb-link transition-link" aria-label="عرض منصة MyKey والفيديو الترويجي">
+                            <picture><source srcset="assets/mykey.avif" type="image/avif"><source srcset="assets/mykey.webp" type="image/webp"><img src="assets/mykey.webp" alt="منصة MyKey" loading="lazy" decoding="async"></picture>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -173,7 +181,9 @@
                 <div class="ag-card-visual">
                     <div class="ag-glow-bg glow-blue"></div>
                     <div class="ag-canvas-surface">
-                        <video src="assets\sada-learning-ide.webm" autoplay muted loop controls width="100%"></video>
+                        <a href="product.html?item=sada" class="ag-thumb-link transition-link" aria-label="عرض منصة Sada Learning IDE والفيديو الترويجي">
+                            <picture><source srcset="assets/sada.avif" type="image/avif"><source srcset="assets/sada.webp" type="image/webp"><img src="assets/sada.webp" alt="منصة Sada" loading="lazy" decoding="async"></picture>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -192,7 +202,9 @@
                 <div class="ag-card-visual">
                     <div class="ag-glow-bg glow-orange"></div>
                     <div class="ag-canvas-surface">
-                        <picture><source srcset="assets/welcome.avif" type="image/avif"><source srcset="assets/welcome.webp" type="image/webp"><img src="assets/welcome.webp" alt="تطبيق Welcome" loading="lazy" decoding="async"></picture>
+                        <a href="product.html?item=welcome" class="ag-thumb-link transition-link" aria-label="عرض تطبيق Welcome والفيديو الترويجي">
+                            <picture><source srcset="assets/welcome.avif" type="image/avif"><source srcset="assets/welcome.webp" type="image/webp"><img src="assets/welcome.webp" alt="تطبيق Welcome" loading="lazy" decoding="async"></picture>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -222,7 +234,7 @@
             </div>
 
             <div class="video-display-frame">
-                <video id="promoVideo" poster="assets/promo-poster.webp" preload="metadata" playsinline>
+                <video id="promoVideo" poster="assets/promo-poster.webp" preload="none" playsinline>
                     <source src="assets/Promo-Video.webm" type="video/webm">
                     <track src="assets/captions.vtt" kind="subtitles" srclang="ar" label="العربية" default>
                     متصفحك لا يدعم تشغيل الفيديو.
@@ -245,15 +257,15 @@
 </section>
 
 
-<!-- Dual-Tier Callout Section (Google Antigravity 3D Particle Morphing) -->
-<section id="developer-tiers" class="try-solutions-section">
+<!-- Contact Selection Section (Final Section: Individual vs Organization 3D Particle Flow) -->
+<section id="contact" class="try-solutions-section">
     <div class="solution-section" data-shape="braces">
         <div class="try-solution-background"><canvas></canvas></div>
         <div class="try-solutions-content">
             <p class="try-solution-label">الأفراد والخبراء</p>
             <p class="header">For individuals</p>
             <p class="subhead">استشارات واستفسارات تطويرية مخصصة</p>
-            <div class="solutions-cta"><a href="#contact" data-contact-target="individual" class="button button-primary particle-btn">تواصل كفرد</a></div>
+            <div class="solutions-cta"><a href="contact.html?type=individual" class="button button-primary particle-btn transition-link">تواصل كفرد</a></div>
         </div>
     </div>
     <div class="solution-section" data-shape="orbs">
@@ -262,104 +274,8 @@
             <p class="try-solution-label">المؤسسات والشركات</p>
             <p class="header">For organizations</p>
             <p class="subhead">حلول برمجية متكاملة وتحول رقمي للشركات</p>
-            <div class="solutions-cta"><a href="#contact" data-contact-target="organization" class="button button-secondary particle-btn">تواصل كمؤسسة</a></div>
+            <div class="solutions-cta"><a href="contact.html?type=organization" class="button button-secondary particle-btn transition-link">تواصل كمؤسسة</a></div>
         </div>
-    </div>
-</section>
-
-
-<!-- Dual-Type Contact Forms Section -->
-<section id="contact" class="section">
-    <div class="container">
-        <div class="section-header reveal-on-scroll">
-            <h2 class="section-title">تواصل معنا</h2>
-            <p class="section-subtitle">اختر نوع التواصل المناسب لمساعدتك بشكل دقيق وسريع.</p>
-        </div>
-
-        <!-- Contact Type Switcher Tabs -->
-        <div class="contact-tab-switcher reveal-on-scroll">
-            <button type="button" class="contact-tab-btn active" id="tabIndivBtn">
-                <span> للأفراد والخبراء</span>
-            </button>
-            <button type="button" class="contact-tab-btn" id="tabOrgBtn">
-                <span> للمؤسسات والشركات</span>
-            </button>
-        </div>
-
-        <!-- Form 1: Individual Contact Form -->
-        <form class="contact-form contact-form-view active reveal-on-scroll" id="individualForm">
-            <div class="form-badge-tag"> نموذج الاستفسارات الفردية والاستشارات</div>
-            <div class="form-group">
-                <label for="indivName">الاسم الكامل</label>
-                <input type="text" id="indivName" required placeholder="أدخل اسمك الكريم">
-            </div>
-            <div class="form-group">
-                <label for="indivEmail">البريد الإلكتروني</label>
-                <input type="email" id="indivEmail" required placeholder="name@domain.com">
-            </div>
-            <div class="form-group">
-                <label for="indivRole">المجال / التخصص</label>
-                <select id="indivRole" class="form-select">
-                    <option value="developer">مطور / مهندس برمجيات</option>
-                    <option value="student">طالب / باحث أكاديمي</option>
-                    <option value="consultant">خبير / استشاري تقني</option>
-                    <option value="other">آخر</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="indivMessage">تفاصيل الاستفسار</label>
-                <textarea id="indivMessage" rows="5" required placeholder="اكتب استفسارك أو طلبك الفردي هنا..."></textarea>
-            </div>
-            <button type="submit" class="btn-primary form-submit-btn particle-btn">
-                <span>إرسال استفسار الأفراد</span>
-            </button>
-        </form>
-
-        <!-- Form 2: Organization Contact Form -->
-        <form class="contact-form contact-form-view reveal-on-scroll" id="organizationForm">
-            <div class="form-badge-tag org-badge">نموذج طلبات مشاريع المؤسسات والشركات</div>
-            <div class="form-group-grid">
-                <div class="form-group">
-                    <label for="orgName">اسم الجهة / الشركة</label>
-                    <input type="text" id="orgName" required placeholder="أدخل اسم المؤسسة أو الشركة">
-                </div>
-                <div class="form-group">
-                    <label for="orgWorkEmail">البريد الإلكتروني المؤسسي</label>
-                    <input type="email" id="orgWorkEmail" required placeholder="contact@company.com">
-                </div>
-            </div>
-            <div class="form-group-grid">
-                <div class="form-group">
-                    <label for="orgContactPerson">مسؤول التواصل والمنصب</label>
-                    <input type="text" id="orgContactPerson" required placeholder="الاسم والمسمى الوظيفي">
-                </div>
-                <div class="form-group">
-                    <label for="orgSize">حجم المنشأة / الموظفين</label>
-                    <select id="orgSize" class="form-select">
-                        <option value="small">1 - 15 موظفاً (شركة ناشئة)</option>
-                        <option value="medium">16 - 100 موظف (متوسطة)</option>
-                        <option value="large">101 - 500 موظف (كبيرة)</option>
-                        <option value="enterprise">+500 موظف (منظومة/قطاع حكومي)</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="orgProjectType">نوع الخدمة / نطاق الحل البرمجي المطلوب</label>
-                <select id="orgProjectType" class="form-select">
-                    <option value="ai-solutions">حلول ذكاء اصطناعي ورؤية حاسوبية</option>
-                    <option value="custom-platform">تطوير منصة رقمية مخصصة</option>
-                    <option value="digital-transform">استشارات تحول رقمي وأتمتة</option>
-                    <option value="edtech-ecom">منظومة تعلّم / تجارة إلكترونية</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="orgMessage">متطلبات المشروع ونطاق العمل</label>
-                <textarea id="orgMessage" rows="5" required placeholder="اشرح المتطلبات التقنية والأهداف التشغيلية للمشروع..."></textarea>
-            </div>
-            <button type="submit" class="btn-primary form-submit-btn particle-btn org-submit">
-                <span>إرسال طلب مشروع المؤسسة</span>
-            </button>
-        </form>
     </div>
 </section>
 
@@ -373,6 +289,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="script.js"></script>
+<script src="script.js?v=4"></script>
 </body>
 </html>

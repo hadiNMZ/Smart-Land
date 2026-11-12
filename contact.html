@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>تواصل معنا | Smart Land</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body class="ct-body">
+
+<!-- Custom Progress Circle Cursor -->
+<div class="custom-cursor" id="customCursor">
+    <svg width="34" height="34" viewBox="0 0 34 34">
+        <circle class="cursor-track" cx="17" cy="17" r="14" />
+        <circle class="cursor-progress" id="cursorProgress" cx="17" cy="17" r="14" />
+        <circle class="cursor-dot" cx="17" cy="17" r="2.5" />
+    </svg>
+</div>
+
+<!-- Codrops-Style Page Transition Overlay Curtain -->
+<div class="page-transition-curtain" id="pageCurtain"></div>
+
+<!-- Fixed Top Navigation Bar -->
+<header class="navbar" id="navbar">
+    <div class="container nav-container">
+        <a href="index.html" class="logo-area transition-link" style="text-decoration:none;color:inherit">
+            <img src="assets/logo.svg" alt="Smart Land Logo" class="site-logo">
+            <span class="brand-name">Smart Land</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="تبديل القائمة" aria-expanded="false">
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+        </button>
+        <nav class="nav-menu" id="navMenu">
+            <ul class="nav-links">
+                <li><a href="index.html#contact" class="transition-link">&rarr; العودة للرئيسية</a></li>
+                <li><a href="index.html#portfolio" class="transition-link">المشاريع</a></li>
+                <li><a href="contact.html?type=individual" id="navIndivLink">للأفراد</a></li>
+                <li><a href="contact.html?type=organization" id="navOrgLink">للمؤسسات</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="ct-main">
+    <section class="section ct-section">
+        <div class="container">
+            <div class="section-header ct-header">
+                <span class="badge-accent" id="ctBadge">قناة التواصل المباشر</span>
+                <h1 class="section-title ct-title" id="ctTitle">تواصل معنا</h1>
+                <p class="section-subtitle ct-subtitle" id="ctSubtitle">اختر نوع التواصل المناسب لمساعدتك بشكل دقيق وسريع.</p>
+            </div>
+
+            <!-- Contact Type Switcher Tabs -->
+            <div class="contact-tab-switcher">
+                <button type="button" class="contact-tab-btn active" id="tabIndivBtn">
+                    <span>للأفراد والخبراء</span>
+                </button>
+                <button type="button" class="contact-tab-btn" id="tabOrgBtn">
+                    <span>للمؤسسات والشركات</span>
+                </button>
+            </div>
+
+            <!-- Inline Submission Feedback Banner -->
+            <div class="ct-feedback" id="ctFeedback" role="status" aria-live="polite"></div>
+
+            <!-- Form 1: Individual Contact Form -->
+            <form class="contact-form contact-form-view active" id="individualForm">
+                <div class="form-badge-tag">نموذج الاستفسارات الفردية والاستشارات</div>
+                <div class="form-group">
+                    <label for="indivName">الاسم الكامل</label>
+                    <input type="text" id="indivName" required placeholder="أدخل اسمك الكريم">
+                </div>
+                <div class="form-group">
+                    <label for="indivEmail">البريد الإلكتروني</label>
+                    <input type="email" id="indivEmail" required placeholder="name@domain.com">
+                </div>
+                <div class="form-group">
+                    <label for="indivRole">المجال / التخصص</label>
+                    <select id="indivRole" class="form-select">
+                        <option value="developer">مطور / مهندس برمجيات</option>
+                        <option value="student">طالب / باحث أكاديمي</option>
+                        <option value="consultant">خبير / استشاري تقني</option>
+                        <option value="other">آخر</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="indivMessage">تفاصيل الاستفسار</label>
+                    <textarea id="indivMessage" rows="4" required placeholder="اكتب استفسارك أو طلبك الفردي هنا..."></textarea>
+                </div>
+                <button type="submit" class="btn-primary form-submit-btn particle-btn">
+                    <span>إرسال استفسار الأفراد</span>
+                </button>
+            </form>
+
+            <!-- Form 2: Organization Contact Form -->
+            <form class="contact-form contact-form-view" id="organizationForm">
+                <div class="form-badge-tag org-badge">نموذج طلبات مشاريع المؤسسات والشركات</div>
+                <div class="form-group-grid">
+                    <div class="form-group">
+                        <label for="orgName">اسم الجهة / الشركة</label>
+                        <input type="text" id="orgName" required placeholder="أدخل اسم المؤسسة أو الشركة">
+                    </div>
+                    <div class="form-group">
+                        <label for="orgWorkEmail">البريد الإلكتروني المؤسسي</label>
+                        <input type="email" id="orgWorkEmail" required placeholder="contact@company.com">
+                    </div>
+                </div>
+                <div class="form-group-grid">
+                    <div class="form-group">
+                        <label for="orgContactPerson">مسؤول التواصل والمنصب</label>
+                        <input type="text" id="orgContactPerson" required placeholder="الاسم والمسمى الوظيفي">
+                    </div>
+                    <div class="form-group">
+                        <label for="orgSize">حجم المنشأة / الموظفين</label>
+                        <select id="orgSize" class="form-select">
+                            <option value="small">1 - 15 موظفاً (شركة ناشئة)</option>
+                            <option value="medium">16 - 100 موظف (متوسطة)</option>
+                            <option value="large">101 - 500 موظف (كبيرة)</option>
+                            <option value="enterprise">+500 موظف (منظومة/قطاع حكومي)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="orgProjectType">نوع الخدمة / نطاق الحل البرمجي المطلوب</label>
+                    <select id="orgProjectType" class="form-select">
+                        <option value="ai-solutions">حلول ذكاء اصطناعي ورؤية حاسوبية</option>
+                        <option value="custom-platform">تطوير منصة رقمية مخصصة</option>
+                        <option value="digital-transform">استشارات تحول رقمي وأتمتة</option>
+                        <option value="edtech-ecom">منظومة تعلّم / تجارة إلكترونية</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="orgMessage">متطلبات المشروع ونطاق العمل</label>
+                    <textarea id="orgMessage" rows="4" required placeholder="اشرح المتطلبات التقنية والأهداف التشغيلية للمشروع..."></textarea>
+                </div>
+                <button type="submit" class="btn-primary form-submit-btn particle-btn org-submit">
+                    <span>إرسال طلب مشروع المؤسسة</span>
+                </button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <p>© 2026 شركة Smart Land للحلول البرمجية والاستشارات التقنية. جميع الحقوق محفوظة.</p>
+        <p>مشروع مقرر نظم الوسائط المتعددة (ITE_BMM601 / ISE_MM) — الجامعة الافتراضية السورية</p>
+    </div>
+</footer>
+
+<script src="contact.js?v=4"></script>
+</body>
+</html>
+

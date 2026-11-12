@@ -10,7 +10,11 @@
             features: ['التقاط حركة اليدين عبر الكاميرا', 'ترجمة فورية إلى نص', 'دمج الصم وضعاف السمع تقنياً ومجتمعياً'],
             demoTitle: 'جرّب تتبّع اليد الحي',
             demoNote: 'التتبع حقيقي: الكاميرا تعمل داخل متصفحك ولا يُرسل أي فيديو إلى أي خادم. العرض يتعرف على أشكال اليد الأساسية ويحوّلها إلى عبارات.',
-            window: 'Smart Signal — Live Hand Tracking'
+            window: 'Smart Signal — Live Hand Tracking',
+            video: 'assets/Smart_Signal_2.0.webm',
+            poster: 'assets/smart-signal-poster.webp',
+            vtt: 'assets/captions-smart-signal.vtt',
+            videoSubtitle: 'عرض توضيحي لمنظومة تتبع حركة اليد والترجمة الذكية الفورية للغة الإشارة'
         },
         'mykey': {
             demo: 'mykey', img: 'mykey', accent: '#b36bf0', rgb: '179,107,240',
@@ -20,7 +24,11 @@
             features: ['تصفية فورية حسب الفئة والسعر والنوع', 'إعلانات معتمدة للعقارات والمركبات', 'مطابقة ذكية وتواصل مباشر بين البائع والمشتري'],
             demoTitle: 'تصفّح وتصفية الإعلانات',
             demoNote: 'ابحث وصفِّ وافرز وأضف إلى المفضلة وتواصل مع البائع. اختبر سرعة التصفية الذكية مع البيانات التفاعلية.',
-            window: 'MyKey Platform — Smart Filters & Matching'
+            window: 'MyKey Platform — Smart Filters & Matching',
+            video: 'assets/MyKey Platform-1.webm',
+            poster: 'assets/mykey-poster.webp',
+            vtt: 'assets/captions-mykey.vtt',
+            videoSubtitle: 'منظومة الفلترة الذكية والمطابقة الفورية للعقارات والمركبات بالذكاء الاصطناعي'
         },
         'sada': {
             demo: 'sada', img: 'sada', accent: '#5b9cf0', rgb: '91,156,240',
@@ -30,7 +38,11 @@
             features: ['مترجم بايثون مدمج ينفذ الكود فورياً في المتصفح', 'فحص تلقائي للحلول واختبارات برمجية تفاعلية', 'إدارة البيئة التعليمية وتعدد الملفات البرمجية'],
             demoTitle: 'محرر ومترجم بايثون التفاعلي',
             demoNote: 'اكتب كود Python حقيقياً، شغّله فوراً في المتصفح لعرض المخرجات، وافحص الدوال لاجتياز الاختبارات المؤتمتة.',
-            window: 'Sada Learning IDE — In-Browser Python Compiler'
+            window: 'Sada Learning IDE — In-Browser Python Compiler',
+            video: 'assets/sada-learning-ide.webm',
+            poster: 'assets/sada-poster.webp',
+            vtt: 'assets/captions-sada.vtt',
+            videoSubtitle: 'بيئة تعليمية تفاعلية ومفسّر بايثون مدمج مع اختبارات برمجية مؤتمتة'
         },
         'welcome': {
             demo: 'welcome', img: 'welcome', accent: '#ff9a3d', rgb: '255,154,61',
@@ -40,7 +52,11 @@
             features: ['عدة متاجر وتُجّار داخل تطبيق موحد', 'حلول دفع مرنة وآمنة مع أكواد خصم', 'إدارة لوجستية متطورة وتتبع مؤتمت للطلبات'],
             demoTitle: 'تسوّق تفاعلي من عدة متاجر',
             demoNote: 'أضف منتجات من متاجر مختلفة، جرّب كود الخصم WELCOME10، ثم أتمم الطلب وتابع تتبعه اللوجستي.',
-            window: 'Welcome E-Commerce — Multi-Vendor Ecosystem'
+            window: 'Welcome E-Commerce — Multi-Vendor Ecosystem',
+            video: 'assets/welcome-promo.webm',
+            poster: 'assets/welcome-poster.webp',
+            vtt: 'assets/captions-welcome.vtt',
+            videoSubtitle: 'منظومة التسوق الذكي متعددة المتاجر مع حلول الدفع المرن والتتبع اللوجستي'
         }
     };
 
@@ -60,19 +76,221 @@
     $('pdPitch').textContent = p.pitch;
     const checkSvg = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
     $('pdFeatures').innerHTML = p.features.map(f => `<li><span class="pd-check">${checkSvg}</span>${f}</li>`).join('');
-    $('pdSrcAvif').srcset = `assets/${p.img}.avif`;
-    $('pdSrcWebp').srcset = `assets/${p.img}.webp`;
-    const img = $('pdImg');
-    img.src = `assets/${p.img}.jpeg`;       // fallback until converted to webp/avif
-    img.alt = p.alt;
-    img.addEventListener('error', () => $('pdPreview').classList.add('no-img'));
+
+    // Fallback picture elements if video cannot play
+    if ($('pdSrcAvif')) $('pdSrcAvif').srcset = `assets/${p.img}.avif`;
+    if ($('pdSrcWebp')) $('pdSrcWebp').srcset = `assets/${p.img}.webp`;
+    const fallbackImg = $('pdImg');
+    if (fallbackImg) {
+        fallbackImg.src = `assets/${p.img}.webp`;
+        fallbackImg.alt = p.alt;
+    }
+
+    // Initialize Watch-Case Video Player on Product Page
+    const pdWatchPlayer = $('pdWatchPlayer');
+    const pdWatchBadge = $('pdWatchBadge');
+    const pdPromoVideo = $('pdPromoVideo');
+    const pdCaseTitle = $('pdCaseTitle');
+    const pdCaseDesc = $('pdCaseDesc');
+    const pdPlayToggleBtn = $('pdPlayToggleBtn');
+
+    if (pdPromoVideo && p.video) {
+        pdPromoVideo.poster = p.poster || `assets/${p.img}.webp`;
+        if (pdCaseTitle) pdCaseTitle.textContent = p.name;
+        if (pdCaseDesc) pdCaseDesc.textContent = p.videoSubtitle;
+
+        // Clear any existing sources/tracks and create clean elements for the selected product
+        pdPromoVideo.querySelectorAll('source, track').forEach(el => el.remove());
+
+        const sourceEl = document.createElement('source');
+        sourceEl.src = p.video;
+        sourceEl.type = 'video/webm';
+        pdPromoVideo.appendChild(sourceEl);
+
+        const vttUrl = (p.vtt && window.location.protocol.startsWith('http')) ? `${p.vtt}?v=3` : p.vtt;
+        if (vttUrl) {
+            const trackEl = document.createElement('track');
+            trackEl.kind = 'subtitles';
+            trackEl.srclang = 'ar';
+            trackEl.label = 'العربية';
+            trackEl.default = true;
+            trackEl.src = vttUrl;
+            trackEl.addEventListener('load', () => {
+                if (trackEl.track) trackEl.track.mode = 'showing';
+            });
+            pdPromoVideo.appendChild(trackEl);
+        }
+
+        pdPromoVideo.load();
+
+        const activatePdSubtitles = () => {
+            if (pdPromoVideo.textTracks) {
+                for (let i = 0; i < pdPromoVideo.textTracks.length; i++) {
+                    pdPromoVideo.textTracks[i].mode = 'showing';
+                }
+            }
+        };
+        activatePdSubtitles();
+        pdPromoVideo.addEventListener('loadedmetadata', activatePdSubtitles);
+
+        // Follow cursor elastic lerp badge for product video player
+        if (pdWatchPlayer && pdWatchBadge) {
+            let pMouseX = 0, pMouseY = 0;
+            let pBadgeX = 0, pBadgeY = 0;
+            let pIsHovered = false;
+
+            pdWatchPlayer.addEventListener('mouseenter', (e) => {
+                pIsHovered = true;
+                const rect = pdWatchPlayer.getBoundingClientRect();
+                pMouseX = e.clientX - rect.left;
+                pMouseY = e.clientY - rect.top;
+                pBadgeX = pMouseX;
+                pBadgeY = pMouseY;
+            });
+
+            pdWatchPlayer.addEventListener('mousemove', (e) => {
+                const rect = pdWatchPlayer.getBoundingClientRect();
+                pMouseX = e.clientX - rect.left;
+                pMouseY = e.clientY - rect.top;
+            });
+
+            pdWatchPlayer.addEventListener('mouseleave', () => {
+                pIsHovered = false;
+            });
+
+            function animatePdWatchBadge() {
+                if (pIsHovered && pdWatchBadge) {
+                    pBadgeX += (pMouseX - pBadgeX) * 0.15;
+                    pBadgeY += (pMouseY - pBadgeY) * 0.15;
+                    pdWatchBadge.style.left = `${pBadgeX}px`;
+                    pdWatchBadge.style.top = `${pBadgeY}px`;
+                }
+                requestAnimationFrame(animatePdWatchBadge);
+            }
+            animatePdWatchBadge();
+        }
+
+        const updatePdPlayState = (isPlaying) => {
+            if (isPlaying) {
+                if (pdWatchPlayer) pdWatchPlayer.classList.add('is-playing');
+                if (pdWatchBadge) {
+                    pdWatchBadge.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                        <span>Pause case</span>
+                    `;
+                }
+                if (pdPlayToggleBtn) {
+                    const playIcon = pdPlayToggleBtn.querySelector('.icon-play');
+                    const pauseIcon = pdPlayToggleBtn.querySelector('.icon-pause');
+                    const text = pdPlayToggleBtn.querySelector('.pill-text');
+                    if (playIcon) playIcon.style.display = 'none';
+                    if (pauseIcon) pauseIcon.style.display = 'inline-block';
+                    if (text) text.textContent = 'إيقاف مؤقت';
+                }
+            } else {
+                if (pdWatchPlayer) pdWatchPlayer.classList.remove('is-playing');
+                if (pdWatchBadge) {
+                    pdWatchBadge.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span>Watch case</span>
+                    `;
+                }
+                if (pdPlayToggleBtn) {
+                    const playIcon = pdPlayToggleBtn.querySelector('.icon-play');
+                    const pauseIcon = pdPlayToggleBtn.querySelector('.icon-pause');
+                    const text = pdPlayToggleBtn.querySelector('.pill-text');
+                    if (playIcon) playIcon.style.display = 'inline-block';
+                    if (pauseIcon) pauseIcon.style.display = 'none';
+                    if (text) text.textContent = 'تشغيل العرض';
+                }
+            }
+        };
+
+        const togglePdPlayback = () => {
+            activatePdSubtitles();
+            if (pdPromoVideo.paused || pdPromoVideo.ended) {
+                if (pdPromoVideo.error) pdPromoVideo.load();
+                const playPromise = pdPromoVideo.play();
+                if (playPromise && typeof playPromise.catch === 'function') {
+                    playPromise.catch((err) => {
+                        if (err && err.name === 'NotAllowedError' && !pdPromoVideo.muted) {
+                            pdPromoVideo.muted = true;
+                            pdPromoVideo.play().catch(() => {});
+                        }
+                    });
+                }
+            } else {
+                pdPromoVideo.pause();
+            }
+        };
+
+        pdPromoVideo.addEventListener('play', () => updatePdPlayState(true));
+        pdPromoVideo.addEventListener('playing', () => updatePdPlayState(true));
+        pdPromoVideo.addEventListener('pause', () => updatePdPlayState(false));
+        pdPromoVideo.addEventListener('ended', () => updatePdPlayState(false));
+
+        if (pdPlayToggleBtn) {
+            pdPlayToggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                togglePdPlayback();
+            });
+        }
+
+        if (pdWatchPlayer) {
+            pdWatchPlayer.addEventListener('click', (e) => {
+                if (e.target.closest('a, #pdPlayToggleBtn')) return;
+                togglePdPlayback();
+            });
+        }
+    }
+
+    const pdCurtain = document.getElementById('pageCurtain');
+    const resetPdCurtain = (instant = true) => {
+        if (!pdCurtain) return;
+        if (instant) {
+            pdCurtain.style.transition = 'none';
+            pdCurtain.classList.remove('active');
+            void pdCurtain.offsetHeight;
+            pdCurtain.style.transition = '';
+        } else {
+            pdCurtain.classList.remove('active');
+        }
+    };
+    resetPdCurtain(true);
+
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('.transition-link');
+        if (!link) return;
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        const targetUrl = link.getAttribute('href');
+        if (pdCurtain) {
+            pdCurtain.classList.add('active');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 400);
+        } else {
+            window.location.href = targetUrl;
+        }
+    });
+
+    window.addEventListener('pageshow', () => {
+        resetPdCurtain(true);
+        document.body.classList.remove('inside-video');
+    });
+    window.addEventListener('pagehide', () => {
+        resetPdCurtain(true);
+        if (pdPromoVideo && !pdPromoVideo.paused) pdPromoVideo.pause();
+    });
+
     $('pdDemoTitle').textContent = p.demoTitle;
     $('pdDemoNote').textContent = p.demoNote;
     $('pdWindowTitle').textContent = p.window;
 
     $('pdMore').innerHTML = Object.entries(PRODUCTS)
         .filter(([k]) => k !== key)
-        .map(([k, o]) => `<a class="pd-more-card" href="product.html?item=${k}" style="--accent:${o.accent};--accent-rgb:${o.rgb}">
+        .map(([k, o]) => `<a class="pd-more-card transition-link" href="product.html?item=${k}" style="--accent:${o.accent};--accent-rgb:${o.rgb}">
             <span class="pd-more-tag">${o.tag}</span><strong>${o.name}</strong><span>${o.pitch}</span></a>`).join('');
 
     const mount = $('demoMount');
@@ -230,6 +448,12 @@
             if (c && isInteractive(e.target)) {
                 c.classList.remove('cursor-hover');
             }
+        });
+
+        const watchCases = document.querySelectorAll('.watch-case-container');
+        watchCases.forEach(wc => {
+            wc.addEventListener('mouseenter', () => document.body.classList.add('inside-video'));
+            wc.addEventListener('mouseleave', () => document.body.classList.remove('inside-video'));
         });
 
         // Top Layer Dialog Cursor Handler: Keeps custom cursor on top of native <dialog> modals

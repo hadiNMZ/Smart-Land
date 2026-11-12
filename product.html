@@ -7,8 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="product.css">
+    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="product.css?v=4">
 </head>
 <body class="pd-body">
 
@@ -24,9 +24,12 @@
     </svg>
 </div>
 
+<!-- Codrops-Style Page Transition Overlay Curtain -->
+<div class="page-transition-curtain" id="pageCurtain"></div>
+
 <header class="navbar" id="navbar">
     <div class="container nav-container">
-        <a href="index.html" class="logo-area" style="text-decoration:none;color:inherit">
+        <a href="index.html" class="logo-area transition-link" style="text-decoration:none;color:inherit">
             <img src="assets/logo.svg" alt="Smart Land Logo" class="site-logo">
             <span class="brand-name">Smart Land</span>
         </a>
@@ -37,8 +40,8 @@
         </button>
         <nav class="nav-menu" id="navMenu">
             <ul class="nav-links">
-                <li><a href="index.html#portfolio">&rarr; العودة لمعرض المشاريع</a></li>
-                <li><a href="index.html#contact">تواصل معنا</a></li>
+                <li><a href="index.html#portfolio" class="transition-link">&rarr; العودة لمعرض المشاريع</a></li>
+                <li><a href="contact.html" class="transition-link">تواصل معنا</a></li>
             </ul>
         </nav>
     </div>
@@ -54,16 +57,44 @@
             <ul class="pd-features" id="pdFeatures"></ul>
             <div class="pd-actions">
                 <a href="#demo" class="btn-primary"><span>جرّب العرض التفاعلي</span></a>
-                <a href="index.html#contact" class="pd-link">اطلب عرضاً</a>
+                <a href="contact.html?type=organization" class="pd-link transition-link">اطلب عرضاً</a>
             </div>
         </div>
-        <figure class="pd-preview" id="pdPreview">
-            <picture>
-                <source id="pdSrcAvif" type="image/avif">
-                <source id="pdSrcWebp" type="image/webp">
-                <img id="pdImg" alt="" width="1280" height="800" decoding="async">
-            </picture>
-        </figure>
+        <div class="watch-case-container pd-watch-case" id="pdWatchPlayer">
+            <!-- Smooth Lagged Follow-Cursor Pill Badge -->
+            <div class="watch-case-badge" id="pdWatchBadge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span>Watch case</span>
+            </div>
+
+            <div class="video-display-frame">
+                <video id="pdPromoVideo" preload="metadata" playsinline>
+                    متصفحك لا يدعم تشغيل الفيديو.
+                </video>
+                <!-- Fallback Image for products without video -->
+                <figure class="pd-preview-fallback" id="pdPreviewFallback" style="display:none;">
+                    <picture>
+                        <source id="pdSrcAvif" type="image/avif">
+                        <source id="pdSrcWebp" type="image/webp">
+                        <img id="pdImg" alt="" width="1280" height="800" decoding="async">
+                    </picture>
+                </figure>
+            </div>
+
+            <div class="watch-case-footer">
+                <div class="case-meta">
+                    <h4 id="pdCaseTitle">Full stack developer case</h4>
+                    <p id="pdCaseDesc">عرض ترويجي للمنتج بالصوت والشروحات النصية المتزامنة</p>
+                </div>
+                <div class="case-actions">
+                    <button type="button" class="btn-play-pill" id="pdPlayToggleBtn" aria-label="تشغيل / إيقاف الفيديو بالصوت">
+                        <svg class="icon-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <svg class="icon-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                        <span class="pill-text">تشغيل العرض</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Working demo -->
@@ -100,6 +131,6 @@
 <script src="demos/mykey.js"></script>
 <script src="demos/sada.js"></script>
 <script src="demos/welcome.js"></script>
-<script src="product.js"></script>
+<script src="product.js?v=4"></script>
 </body>
 </html>

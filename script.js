@@ -141,86 +141,130 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(element => revealObserver.observe(element));
 
-    // 5. Lagged "Watch Case" Badge with Hidden Native Cursor & Lerp Delay
-    const watchCasePlayer = document.getElementById('watchCasePlayer');
-    const watchCaseBadge = document.getElementById('watchCaseBadge');
-    const promoVideo = document.getElementById('promoVideo');
+    // 5. Watch-Case Company Promo Video Player
+    const allManagedVideos = Array.from(document.querySelectorAll('#watchCasePlayer video'));
 
-    if (watchCasePlayer && watchCaseBadge && promoVideo) {
-        // Ensure subtitles (captions track) are active and showing
-        const activateSubtitles = () => {
-            if (promoVideo.textTracks && promoVideo.textTracks[0]) {
-                promoVideo.textTracks[0].mode = 'showing';
+    function activateVideoSubtitles(video) {
+        if (video && video.textTracks) {
+            for (let i = 0; i < video.textTracks.length; i++) {
+                video.textTracks[i].mode = 'showing';
+            }
+        }
+    }
+
+    function safePlayVideo(video) {
+        if (!video) return;
+        allManagedVideos.forEach(v => {
+            if (v !== video && !v.paused) {
+                v.pause();
+            }
+        });
+        activateVideoSubtitles(video);
+        if (video.error) {
+            video.load();
+        }
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch((err) => {
+                if (err && err.name === 'NotAllowedError' && !video.muted) {
+                    video.muted = true;
+                    video.play().catch(() => {});
+                }
+            });
+        }
+    }
+
+    function initWatchCasePlayer(container, playLabel = 'Watch case', pauseLabel = 'Pause case') {
+        if (!container) return;
+        const video = container.querySelector('video');
+        const badge = container.querySelector('.watch-case-badge');
+        const playBtn = container.querySelector('.btn-play-pill');
+        if (!video) return;
+
+        activateVideoSubtitles(video);
+        video.addEventListener('loadedmetadata', () => activateVideoSubtitles(video));
+
+        if (badge) {
+            let mouseX = 0, mouseY = 0;
+            let badgeX = 0, badgeY = 0;
+            let isHovered = false;
+
+            container.addEventListener('mouseenter', (e) => {
+                isHovered = true;
+                const rect = container.getBoundingClientRect();
+                mouseX = e.clientX - rect.left;
+                mouseY = e.clientY - rect.top;
+                badgeX = mouseX;
+                badgeY = mouseY;
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                mouseX = e.clientX - rect.left;
+                mouseY = e.clientY - rect.top;
+            });
+
+            container.addEventListener('mouseleave', () => {
+                isHovered = false;
+            });
+
+            function animateBadge() {
+                if (isHovered) {
+                    badgeX += (mouseX - badgeX) * 0.15;
+                    badgeY += (mouseY - badgeY) * 0.15;
+                    badge.style.left = `${badgeX}px`;
+                    badge.style.top = `${badgeY}px`;
+                }
+                requestAnimationFrame(animateBadge);
+            }
+            animateBadge();
+        }
+
+        const updatePlayerUI = (isPlaying) => {
+            container.classList.toggle('is-playing', isPlaying);
+            if (badge) {
+                badge.innerHTML = isPlaying
+                    ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg><span>${pauseLabel}</span>`
+                    : `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>${playLabel}</span>`;
+            }
+            if (playBtn) {
+                const playIcon = playBtn.querySelector('.icon-play');
+                const pauseIcon = playBtn.querySelector('.icon-pause');
+                const text = playBtn.querySelector('.pill-text');
+                if (playIcon) playIcon.style.display = isPlaying ? 'none' : 'inline-block';
+                if (pauseIcon) pauseIcon.style.display = isPlaying ? 'inline-block' : 'none';
+                if (text) text.textContent = isPlaying ? 'إيقاف مؤقت' : 'تشغيل العرض';
             }
         };
-        activateSubtitles();
-        promoVideo.addEventListener('loadedmetadata', activateSubtitles);
 
-        let mouseX = 0, mouseY = 0;
-        let badgeX = 0, badgeY = 0;
-        let isHovered = false;
-
-        watchCasePlayer.addEventListener('mouseenter', (e) => {
-            isHovered = true;
-            const rect = watchCasePlayer.getBoundingClientRect();
-            mouseX = e.clientX - rect.left;
-            mouseY = e.clientY - rect.top;
-            badgeX = mouseX;
-            badgeY = mouseY;
-        });
-
-        watchCasePlayer.addEventListener('mousemove', (e) => {
-            const rect = watchCasePlayer.getBoundingClientRect();
-            mouseX = e.clientX - rect.left;
-            mouseY = e.clientY - rect.top;
-        });
-
-        watchCasePlayer.addEventListener('mouseleave', () => {
-            isHovered = false;
-        });
-
-        // Linear interpolation loop to create subtle float/delay
-        function animateBadge() {
-            if (isHovered) {
-                // 0.15 factor gives an elastic drag lag effect
-                badgeX += (mouseX - badgeX) * 0.15;
-                badgeY += (mouseY - badgeY) * 0.15;
-
-                watchCaseBadge.style.left = `${badgeX}px`;
-                watchCaseBadge.style.top = `${badgeY}px`;
-            }
-            requestAnimationFrame(animateBadge);
-        }
-        animateBadge();
-
-        // Video play / pause state synchronization
-        promoVideo.addEventListener('play', () => {
-            watchCasePlayer.classList.add('is-playing');
-            watchCaseBadge.innerHTML = `
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                <span>Pause case</span>
-            `;
-        });
-
-        promoVideo.addEventListener('pause', () => {
-            watchCasePlayer.classList.remove('is-playing');
-            watchCaseBadge.innerHTML = `
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                <span>Watch case</span>
-            `;
-        });
-
-        // Toggle playback on click / tap
-        watchCasePlayer.addEventListener('click', (e) => {
-            if (e.target.closest('.case-link')) return;
-
-            if (promoVideo.paused) {
-                promoVideo.play();
+        const togglePlayback = () => {
+            if (video.paused || video.ended) {
+                safePlayVideo(video);
             } else {
-                promoVideo.pause();
+                video.pause();
             }
+        };
+
+        video.addEventListener('play', () => updatePlayerUI(true));
+        video.addEventListener('playing', () => updatePlayerUI(true));
+        video.addEventListener('pause', () => updatePlayerUI(false));
+        video.addEventListener('ended', () => updatePlayerUI(false));
+
+        if (playBtn) {
+            playBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                togglePlayback();
+            });
+        }
+
+        container.addEventListener('click', (e) => {
+            if (e.target.closest('a, .case-link, .btn-play-pill')) return;
+            togglePlayback();
         });
     }
+
+    initWatchCasePlayer(document.getElementById('watchCasePlayer'), 'Watch case', 'Pause case');
 
     // 6. Codrops Particle Effects for Buttons
     function createParticleBurst(button) {
@@ -296,8 +340,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 7. Codrops-Style Page Transition Overlay for Same-Tab Navigation Links
     const pageCurtain = document.getElementById('pageCurtain');
+    const resetPageCurtain = (instant = true) => {
+        if (!pageCurtain) return;
+        if (instant) {
+            pageCurtain.style.transition = 'none';
+            pageCurtain.classList.remove('active');
+            void pageCurtain.offsetHeight;
+            pageCurtain.style.transition = '';
+        } else {
+            pageCurtain.classList.remove('active');
+        }
+    };
+    resetPageCurtain(true);
+
     document.querySelectorAll('.transition-link').forEach(link => {
         link.addEventListener('click', function (e) {
+            // Preserve native modifier-key open in new tab
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
             e.preventDefault();
             const targetUrl = this.getAttribute('href');
 
@@ -314,119 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 8. Contact Form Handler (Individual vs Organization Dual-Tab Systems)
-    const tabIndivBtn = document.getElementById('tabIndivBtn');
-    const tabOrgBtn = document.getElementById('tabOrgBtn');
-    const formIndividual = document.getElementById('individualForm');
-    const formOrganization = document.getElementById('organizationForm');
-
-    function activateContactTab(type) {
-        if (type === 'organization') {
-            if (tabOrgBtn && tabIndivBtn) {
-                tabOrgBtn.classList.add('active');
-                tabIndivBtn.classList.remove('active');
-            }
-            if (formOrganization && formIndividual) {
-                formOrganization.classList.add('active');
-                formIndividual.classList.remove('active');
-            }
-        } else {
-            if (tabIndivBtn && tabOrgBtn) {
-                tabIndivBtn.classList.add('active');
-                tabOrgBtn.classList.remove('active');
-            }
-            if (formIndividual && formOrganization) {
-                formIndividual.classList.add('active');
-                formOrganization.classList.remove('active');
-            }
-        }
-    }
-
-    if (tabIndivBtn) tabIndivBtn.addEventListener('click', () => activateContactTab('individual'));
-    if (tabOrgBtn) tabOrgBtn.addEventListener('click', () => activateContactTab('organization'));
-
-    // Handle particle section buttons ("For individuals" & "For organizations")
-    document.querySelectorAll('[data-contact-target]').forEach(btn => {
-        btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetType = this.getAttribute('data-contact-target');
-            activateContactTab(targetType);
-
-            const contactSection = document.getElementById('contact');
-            if (contactSection) {
-                const navOffset = 70;
-                const targetPos = contactSection.getBoundingClientRect().top + window.pageYOffset - navOffset;
-                window.scrollTo({ top: targetPos, behavior: 'smooth' });
-
-                setTimeout(() => {
-                    if (targetType === 'organization') {
-                        const input = document.getElementById('orgName');
-                        if (input) input.focus();
-                    } else {
-                        const input = document.getElementById('indivName');
-                        if (input) input.focus();
-                    }
-                }, 550);
-            }
-        });
-    });
-
-    // Individual Form Submission
-    if (formIndividual) {
-        formIndividual.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const name = document.getElementById('indivName').value.trim();
-            const email = document.getElementById('indivEmail').value.trim();
-            const message = document.getElementById('indivMessage').value.trim();
-
-            if (!name || !email || !message) {
-                alert('يرجى ملء جميع الحقول المطلوبة قبل الإرسال.');
-                return;
-            }
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('يرجى إدخال عنوان بريد إلكتروني صحيح.');
-                return;
-            }
-
-            setTimeout(() => {
-                alert(`شكراً لتواصلك الفردي يا ${name}! تم استلام استفسارك وسيتواصل معك فريق Smart Land قريباً.`);
-                formIndividual.reset();
-            }, 300);
-        });
-    }
-
-    // Organization Form Submission
-    if (formOrganization) {
-        formOrganization.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const orgName = document.getElementById('orgName').value.trim();
-            const workEmail = document.getElementById('orgWorkEmail').value.trim();
-            const contactPerson = document.getElementById('orgContactPerson').value.trim();
-            const orgMessage = document.getElementById('orgMessage').value.trim();
-
-            if (!orgName || !workEmail || !contactPerson || !orgMessage) {
-                alert('يرجى ملء جميع بيانات المؤسسة المطلوبة قبل الإرسال.');
-                return;
-            }
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(workEmail)) {
-                alert('يرجى إدخال عنوان بريد إلكتروني رسمي صحيح.');
-                return;
-            }
-
-            setTimeout(() => {
-                alert(`تم استلام طلب مشروع مؤسسة "${orgName}" بنجاح! سيتواصل مسؤول العلاقات التقنية في Smart Land مع السيد/ة ${contactPerson} قريباً.`);
-                formOrganization.reset();
-            }, 300);
-        });
-    }
-
-    // 9. Google Antigravity Particle Engine (Hero Section Background)
+    // 8. Google Antigravity Particle Engine (Hero Section Background)
     function initAntigravityHeroParticles() {
         const canvas = document.getElementById('bgParticles');
         if (!canvas) return;
@@ -671,11 +618,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        const watchCase = document.getElementById('watchCasePlayer');
-        if (watchCase) {
-            watchCase.addEventListener('mouseenter', () => document.body.classList.add('inside-video'));
-            watchCase.addEventListener('mouseleave', () => document.body.classList.remove('inside-video'));
-        }
+        const allWatchCases = document.querySelectorAll('.watch-case-container');
+        allWatchCases.forEach(wc => {
+            wc.addEventListener('mouseenter', () => document.body.classList.add('inside-video'));
+            wc.addEventListener('mouseleave', () => document.body.classList.remove('inside-video'));
+        });
     }
 
     // Top Layer Dialog Cursor Handler: Keeps custom cursor on top of native <dialog> modals
@@ -933,5 +880,33 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initParticleMorphSections);
 } else {
     initParticleMorphSections();
-
 }
+
+// Reset curtain overlay & restore visible state when navigating back/forward (bfcache)
+function restorePageStateOnNavigation() {
+    const curtain = document.getElementById('pageCurtain');
+    if (curtain) {
+        curtain.style.transition = 'none';
+        curtain.classList.remove('active');
+        void curtain.offsetHeight;
+        curtain.style.transition = '';
+    }
+    document.body.classList.remove('inside-video');
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 100) {
+            el.classList.add('is-visible');
+        }
+    });
+}
+
+window.addEventListener('pageshow', restorePageStateOnNavigation);
+window.addEventListener('pagehide', () => {
+    const curtain = document.getElementById('pageCurtain');
+    if (curtain) {
+        curtain.classList.remove('active');
+    }
+    document.querySelectorAll('video').forEach(v => {
+        if (!v.paused) v.pause();
+    });
+});
